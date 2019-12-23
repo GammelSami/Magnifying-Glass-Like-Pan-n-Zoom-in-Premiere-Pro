@@ -18,17 +18,21 @@ function fetchSequenceValues() {
   });
 
   /* clip */
-
+cs.evalScript('$.get.clipX()');
   //clip x position
+  /*
   cs.evalScript('$.get.clipX()', function (cb) {
     debug('clipX: ' + cb);
     spotlight.x(cb);
   });
+  */
   //clip y position
+  /*
   cs.evalScript('$.get.clipY()', function (cb) {
     debug('clipY: ' + cb);
     spotlight.y(cb);
   });
+  */
   //clip x anchorpoint
   //clip y anchorpoint
   //clip rotation
