@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- USE DEVELOPMENT VERSION -->
+    <script src="https://unpkg.com/konva@4.0.18/konva.min.js"></script>
+    <meta charset="utf-8" />
+    <title>Motion Control Panel Konva Dummy</title>
+    <style>
+      :root {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: transparent;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="canvas"></div>
+    <script>
+      var width = window.innerWidth;
+      var height = window.innerHeight;
+
+      /********** init conva objects **********/
+
+      var stage = new Konva.Stage({
+        container: 'canvas',
+        width: width,
+        height: height
+      });
+
+      var layer = new Konva.Layer();
+      stage.add(layer);
+
+      var spotlight = new Konva.Rect({
+        x: 160,
+        y: 60,
+        width: 100, //sequence width
+        height: 90, //sequence height
+        name: 'spotlight',
+        draggable: true
+      });
+      layer.add(spotlight);
+
+      var text = new Konva.Text({
+        x: 5,
+        y: 5
+      });
+      layer.add(text);
+      updateText();
+
+      var tr = new Konva.Transformer({
+        keepRatio: true,
+        rotationSnaps: [0, 45, 90, 135, 180, 225, 270, 315]
+      });
+      layer.add(tr);
+      tr.attachTo(spotlight);
+      layer.draw();
+
+
+      /********** add event listeners **********/
+
+      spotlight.on('transformstart', function() {
+        console.log('transform start');
+      });
+      spotlight.on('dragmove', function() {
+        snapToGrid();
+        updateText();
+      });
+      spotlight.on('transform', function() {
+        updateText();
+        console.log('transform');
+      });
+      spotlight.on('transformend', function() {
+        console.log('transform end');
+      });
+
+      /********** functions **********/
+
+      function snapToGrid() {
+        var blockSize = 10 //size of grid gaps in px
+        spotlight.position({
+          x: Math.round(spotlight.x() / blockSize) * blockSize,
+          y: Math.round(spotlight.y() / blockSize) * blockSize
+        });
+        stage.batchDraw();
+      }
+
+      function updateText() {
+        var lines = [
+          'x: ' + spotlight.x(),
+          'y: ' + spotlight.y(),
+          'rotation: ' + spotlight.rotation(),
+          'width: ' + spotlight.width(),
+          'height: ' + spotlight.height(),
+          'scaleX: ' + spotlight.scaleX(),
+          'scaleY: ' + spotlight.scaleY()
+        ];
+        text.text(lines.join('\n'));
+        layer.batchDraw();
+      }
+    </script>
+  </body>
+</html>

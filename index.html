@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<!-- This document forms the dockable panel. -->
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Motion Control Panel</title>
+		<link href="css/style.css">
+		<script src="./lib/CSInterface.js"></script>
+    <!-- USE konva DEVELOPMENT VERSION --><script src="https://unpkg.com/konva@4.0.18/konva.min.js"></script>
+		<script src="js/functions.js"></script>
+		<script src="js/run.js"></script>
+		<script>
+			//call extendscript
+			var cs = new CSInterface();
+			function run(call) {
+				//use the adobe_cep_.evalScript to interpret Javascript into Extendscript
+				cs.evalScript('$.runScript.' + call);
+			}
+		</script>
+	</head>
+	<body>
+		<div id="canvas">canvas</div>
+		<button onclick="run('helloworld()');">Say hello</button>
+		<script>
+			document.addEventListener('keydown', (e) => {
+				if (e.code == 'F5') location.reload(); //this only reloads the html, not the jsx
+			})
+		</script>
+	</body>
+</html>
