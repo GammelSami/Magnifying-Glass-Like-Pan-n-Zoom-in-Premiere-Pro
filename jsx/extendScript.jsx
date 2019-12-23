@@ -1,5 +1,6 @@
 $.get = {
 	callback: function() {
+		app.trace('Callback Test');
 		return "Callback Test";
 	},
 	sequenceWidth: function() {
@@ -9,10 +10,10 @@ $.get = {
 		return getSeq().getSettings().videoFrameHeight;
 	},
 	clipX: function() {
-		throw 'not supported yet';
+		//app.trace('not supported yet');
 	},
 	clipY: function() {
-		throw 'not supported yet';
+		app.trace('not supported yet');
 	},
 }
 

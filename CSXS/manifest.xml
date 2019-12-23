@@ -34,8 +34,8 @@
 					<Menu>Motion Control Panel ███</Menu>
 					<Geometry>
 						<Size>
-							<Height>300</Height>
-							<Width>300</Width>
+							<Height>600</Height>
+							<Width>600</Width>
 						</Size>
 					</Geometry>
 				</UI>

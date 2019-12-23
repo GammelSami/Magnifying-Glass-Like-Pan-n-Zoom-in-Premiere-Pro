@@ -65,7 +65,8 @@ function updateText() {
 function debug() {
   if (DEBUG) {
     for (var i = 0; i < arguments.length; i++) {
-      document.getElementById('debug').value += arguments[i] + '\n';
+      var tmp = document.getElementById('debug').value;
+      document.getElementById('debug').value = arguments[i] + '\n' + tmp;
     }
   }
 }
