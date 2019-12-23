@@ -4,7 +4,7 @@ spotlight.on('transformstart', function() {
   console.log('transform start');
 });
 spotlight.on('dragmove', function() {
-  snapToGrid();
+  //snapToPixelGrid();
   updateText();
 });
 spotlight.on('transform', function() {
@@ -13,4 +13,8 @@ spotlight.on('transform', function() {
 });
 spotlight.on('transformend', function() {
   console.log('transform end');
+});
+
+window.addEventListener('resize', () => {
+  updateStageSize();
 });

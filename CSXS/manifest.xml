@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ExtensionManifest Version="6.0" ExtensionBundleId="CHANGE_ME" ExtensionBundleVersion="1.0.0" ExtensionBundleName="CHANGE_ME" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<ExtensionManifest Version="6.0" ExtensionBundleId="MOTION_CONTROL_PANEL" ExtensionBundleVersion="1.0.0" ExtensionBundleName="MOTION_CONTROL_PANEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<ExtensionList>
-		<Extension Id="CHANGE_ME" Version="1.0" />
+		<Extension Id="MOTION_CONTROL_PANEL" Version="1.0" />
 	</ExtensionList>
 	<ExecutionEnvironment>
 		<HostList>
@@ -16,7 +16,7 @@
 	</ExecutionEnvironment>
 
 	<DispatchInfoList>
-		<Extension Id="CHANGE_ME">
+		<Extension Id="MOTION_CONTROL_PANEL">
 			<DispatchInfo >
 				<Resources>
 					<MainPath>./index.html</MainPath>
@@ -31,7 +31,7 @@
 				</Lifecycle>
 				<UI>
 					<Type>Panel</Type>
-					<Menu>GIVE YOUR PANEL A TITLE</Menu>
+					<Menu>Motion Control Panel ███</Menu>
 					<Geometry>
 						<Size>
 							<Height>300</Height>

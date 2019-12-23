@@ -2,5 +2,16 @@
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background-color: transparent;
+  background-color: #232323;
+  color: #B9B9B9;
+  font-family: sans-serif;
+  user-select: none;
+  cursor: default;
+}
+
+#stage {
+  background-color: grey;/* #262626 */
+  display: inline-block;
+  max-width: 100%;
+  max-height: 100%;
 }
