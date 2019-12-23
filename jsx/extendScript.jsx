@@ -5,26 +5,67 @@ $.get = {
 	sequenceHeight: function() {
 		return getSeq().getSettings().videoFrameHeight;
 	},
-	clipX: function() {
-		//alert( getMotion().properties[0].getValue() );
-		debug(
-			getVideoComponentByMatchName("AE.ADBE Motion").properties[0].getValue()[0],
-			getVideoComponentByMatchName("AE.ADBE Motion").properties[0].getValue()[1],
-		);
-		debug(
-			qe.project.getActiveSequence().getVideoTrackAt(0).getItemAt(0).getComponentAt(1).getParamValue('Position')
-		);
+	clipPositionX: function() {
+		//only the multiplyer is returned, so...
+		return this.sequenceWidth() * getVideoComponentByMatchName("AE.ADBE Motion").properties[0].getValue()[0];
+		//debug(qe.project.getActiveSequence().getVideoTrackAt(0).getItemAt(0).getComponentAt(1).getParamValue('Position')); //precalculated qe-solution
 	},
-	clipY: function() {
-		debug('not supported yet');
+	clipPositionY: function() {
+		return this.sequenceHeight() * getVideoComponentByMatchName("AE.ADBE Motion").properties[0].getValue()[1];
+	},
+	clipScale: function() {
+		return getVideoComponentByMatchName("AE.ADBE Motion").properties[1].getValue();
+	},
+	clipScaleW: function() {
+		return getVideoComponentByMatchName("AE.ADBE Motion").properties[2].getValue();
+	},
+	clipScaleSync: function() {
+		return getVideoComponentByMatchName("AE.ADBE Motion").properties[3].getValue();
+	},
+	clipRotation: function() {
+		return getVideoComponentByMatchName("AE.ADBE Motion").properties[4].getValue();
+	},
+	clipAnchorPointX: function() {
+		return this.sequenceWidth() * getVideoComponentByMatchName("AE.ADBE Motion").properties[5].getValue()[0];
+	},
+	clipAnchorPointY: function() {
+		return this.sequenceHeight() * getVideoComponentByMatchName("AE.ADBE Motion").properties[5].getValue()[1];
+	},
+	clipWidth: function() {
+		return this.sequenceWidth(); //fallback, not possible yet!
+	},
+	clipHeight: function() {
+		return this.sequenceHeight(); //fallback, not possible yet!
 	},
 }
 
 $.set = {
+	clipPosition: function(valX, valY) {
+		var x = valX / $.get.sequenceWidth();
+		var y = valY / $.get.sequenceHeight();
+		getVideoComponentByMatchName("AE.ADBE Motion").properties[0].setValue([x,y], true);
+	},
+	clipScale: function(val) {
+		getVideoComponentByMatchName("AE.ADBE Motion").properties[1].setValue(val, true);
+	},
+	clipScaleW: function(val) {
+		getVideoComponentByMatchName("AE.ADBE Motion").properties[2].setValue(val, true);
+	},
+	clipScaleSync: function(val) {
+		getVideoComponentByMatchName("AE.ADBE Motion").properties[3].setValue(val, true);
+	},
+	clipRotation: function(val) {
+		getVideoComponentByMatchName("AE.ADBE Motion").properties[4].setValue(val, true);
+	},
+	clipAnchorPoint: function(valX, valY) {
+		var x = valX / $.get.sequenceWidth();
+		var y = valY / $.get.sequenceHeight();
+		getVideoComponentByMatchName("AE.ADBE Motion").properties[5].setValue([x,y], true);
+	},
 }
 
 /***** helper *****/
-app.enableQE();
+//app.enableQE();
 
 function getSeq() {
 	return app.project.activeSequence;

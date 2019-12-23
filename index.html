@@ -22,8 +22,24 @@
 		</script>
 	</head>
 	<body>
-		<div id="stage">Something went wrong. Try to reload the Panel or press F5 for soft reload.</div>
-		<button onclick="run('get.callback()');">test</button><br>
+		<div style="display:none" id="stage">Something went wrong. Try to reload the Panel or press F5 for soft reload.</div>
+		<fieldset>
+			<legend>Setter/Getter Demo</legend>
+			sequenceWidth: 	<input type="number" id="sequenceWidth"><br>
+			sequenceHeight: <input type="number" id="sequenceHeight"><br>
+			clipPositionX: 	<input type="number" id="clipPositionX"><br>
+			clipPositionY: 	<input type="number" id="clipPositionY"><br>
+			clipScale:			<input type="number" id="clipScale"><br>
+			clipScaleW:			<input type="number" id="clipScaleW"><br>
+			clipScaleSync:	<input type="checkbox" id="clipScaleSync"><br>
+			clipRotation:			<input type="number" id="clipRotation"><br>
+			clipAnchorPointX:		<input type="number" id="clipAnchorPointX"><br>
+			clipAnchorPointY:		<input type="number" id="clipAnchorPointY"><br>
+
+			clipWidth: 		<input type="number" id="clipWidth" disabled><br>
+			clipHeight:	 	<input type="number" id="clipHeight" disabled><br>
+			<button onclick="applySequenceValues();">Apply</button><br>
+		</fieldset>
 		<textarea id="debug" style="width:100%;height:200px;"></textarea>
 	</body>
 </html>
