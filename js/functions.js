@@ -119,8 +119,9 @@ function updateText() {
 function debug() {
   if (DEBUG) {
     for (var i = 0; i < arguments.length; i++) {
-      var tmp = document.getElementById('debug').value;
-      document.getElementById('debug').value = arguments[i] + '\n' + tmp;
+      var log = document.getElementById('debug');
+      var tmp = log.value;
+      log.value = arguments[i] + '\n' + tmp;
     }
   }
 }
