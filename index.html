@@ -14,9 +14,10 @@
 		</script>
 	</head>
 	<body>
-		<details open>
+		<details  id="debugArea">
 			<summary>Debug Area</summary>
 			<fieldset>
+				<textarea id="debugLog" disabled style="position:absolute;right:15px;width:35%;height:250px;"></textarea>
 				<legend>Setter/Getter Demo</legend>
 				sequenceWidth: 	<input type="number" id="sequenceWidth"><br>
 				sequenceHeight: <input type="number" id="sequenceHeight"><br>
@@ -33,7 +34,6 @@
 				clipHeight:	 	<input type="number" id="clipHeight" disabled><br>
 				<button onclick="applySequenceValues();">Apply</button><br>
 			</fieldset>
-			<textarea id="debugLog" style="width:99%;height:100px;"></textarea>
 		</details>
 		<div id="stage">Something went wrong. Try to reload the Panel or press F5 for soft reload.</div>
 	</body>
@@ -41,10 +41,13 @@
 
 
 
-<script>//refresh on F5
+<script>//footer script
+//refresh on F5
 window.addEventListener('keydown', (e) => {
 	if (e.code == 'F5') location.reload(); //this only reloads the html, not the jsx
 })
+//hide debug area
+if (!DEBUG) document.getElementById('debugArea').style.display = 'none';
 </script>
 
 

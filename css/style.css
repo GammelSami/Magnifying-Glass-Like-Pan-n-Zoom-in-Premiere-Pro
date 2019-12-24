@@ -1,7 +1,7 @@
 :root {
   margin: 0;
   padding: 0;
-  overflow: hidden;
+  /* overflow: hidden; */
   background-color: #232323;
   color: #B9B9B9;
   font-family: sans-serif;
