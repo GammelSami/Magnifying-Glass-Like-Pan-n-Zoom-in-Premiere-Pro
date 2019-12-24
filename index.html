@@ -14,27 +14,46 @@
 		</script>
 	</head>
 	<body>
-		<details  id="debugArea">
-			<summary>Debug Area</summary>
-			<fieldset>
-				<textarea id="debugLog" disabled style="position:absolute;right:15px;width:35%;height:250px;"></textarea>
-				<legend>Setter/Getter Demo</legend>
-				sequenceWidth: 	<input type="number" id="sequenceWidth"><br>
-				sequenceHeight: <input type="number" id="sequenceHeight"><br>
-				clipPositionX: 	<input type="number" id="clipPositionX"><br>
-				clipPositionY: 	<input type="number" id="clipPositionY"><br>
-				clipScale:			<input type="number" id="clipScale"><br>
-				clipScaleW:			<input type="number" id="clipScaleW"><br>
-				clipScaleSync:	<input type="checkbox" id="clipScaleSync"><br>
-				clipRotation:			<input type="number" id="clipRotation"><br>
-				clipAnchorPointX:		<input type="number" id="clipAnchorPointX"><br>
-				clipAnchorPointY:		<input type="number" id="clipAnchorPointY"><br>
+		<div id="debugArea">
+			<details>
+				<summary>Premiere Debug Area</summary>
+				<fieldset>
+					<textarea id="debugLog" disabled style="position:absolute;right:15px;width:35%;height:250px;"></textarea>
+					<legend>Setter/Getter Demo</legend>
+					sequenceWidth: 	<input type="number" id="sequenceWidth"><br>
+					sequenceHeight: <input type="number" id="sequenceHeight"><br>
+					clipPositionX: 	<input type="number" id="clipPositionX"><br>
+					clipPositionY: 	<input type="number" id="clipPositionY"><br>
+					clipScale:			<input type="number" id="clipScale"><br>
+					clipScaleW:			<input type="number" id="clipScaleW"><br>
+					clipScaleSync:	<input type="checkbox" id="clipScaleSync"><br>
+					clipRotation:			<input type="number" id="clipRotation"><br>
+					clipAnchorPointX:		<input type="number" id="clipAnchorPointX"><br>
+					clipAnchorPointY:		<input type="number" id="clipAnchorPointY"><br>
 
-				clipWidth: 		<input type="number" id="clipWidth" disabled><br>
-				clipHeight:	 	<input type="number" id="clipHeight" disabled><br>
-				<button onclick="applySequenceValues();">Apply</button><br>
-			</fieldset>
-		</details>
+					clipWidth: 		<input type="number" id="clipWidth" disabled><br>
+					clipHeight:	 	<input type="number" id="clipHeight" disabled><br>
+					<button onclick="applyToPremiere();">applyToPremiere</button><br>
+				</fieldset>
+			</details>
+			<details open>
+				<summary>Knova Debug Area</summary>
+				<fieldset>
+					stageWidth: 			<input type="number" id="stageWidth"><br>
+					stageHeight: 			<input type="number" id="stageHeight"><br>
+					spotlightX: 			<input type="number" id="spotlightX"><br>
+					spotlightY: 			<input type="number" id="spotlightY"><br>
+					spotlightOffsetX: <input type="number" id="spotlightOffsetX"><br>
+					spotlightOffsetY: <input type="number" id="spotlightOffsetY"><br>
+					spotlightHeight: 	<input type="number" id="spotlightHeight"><br>
+					spotlightWidth: 	<input type="number" id="spotlightWidth"><br>
+					spotlightScaleX: 	<input type="number" id="spotlightScaleX"><br>
+					spotlightScaleY: 	<input type="number" id="spotlightScaleY"><br>
+					<button onclick="applyToKonva()">applyToKonva</button>
+					<button onclick="fetchFromKonva()">fetchFromKonva</button>
+				</fieldset>
+			</details>
+		</div>
 		<div id="stage">Something went wrong. Try to reload the Panel or press F5 for soft reload.</div>
 	</body>
 </html>
@@ -58,31 +77,36 @@ if (!DEBUG) document.getElementById('debugArea').style.display = 'none';
 
 var stage = new Konva.Stage({
 	container: 'stage',
-	width: null,
-	height: null
+	width: 300,
+	height: 200
 });
 
 var layer = new Konva.Layer();
 stage.add(layer);
 
 var spotlight = new Konva.Rect({
-	draggable: true,
-	x: null, //position x
-	y: null, //position y
-	offsetX: null, //position offset (not rotation anchorpoint)
-	offsetY: null,
-	width: null, //sequence width
-	height: null, //sequence height
+	x: 300 / 2,
+	y: 200 / 2,
+	width: 300,
+	height: 200,
+	offsetX: 300 / 2,
+	offsetY: 200 / 2,
+	fill: 'red',
 	name: 'spotlight',
+	stroke: 'black',
+	draggable: true
 });
 layer.add(spotlight);
 
-fetchSequenceValues();
-
-var tr = new Konva.Transformer({
-	keepRatio: true,
-	rotationSnaps: [0, 45, 90, 135, 180, 225, 270, 315]
+var text = new Konva.Text({
+	x: 5,
+	y: 5
 });
+layer.add(text);
+updateText();
+
+// create new transformer
+var tr = new Konva.Transformer();
 layer.add(tr);
 tr.attachTo(spotlight);
 layer.draw();

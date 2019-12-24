@@ -1,6 +1,6 @@
 /********** functions **********/
 
-function applySequenceValues() {
+function applyToPremiere() {
   //clip position xy
   cs.evalScript('$.set.clipPosition('+
     getFormVal('clipPositionX') + ',' +
@@ -29,20 +29,19 @@ function applySequenceValues() {
   +')');
 }
 
-function fetchSequenceValues() {
+function fetchFromPremiere() {
+
+  var windowH = window.innerHeight;
+  var windowW = window.innerWidth;
 
   /* sequence */
   //sequence width
   cs.evalScript('$.get.sequenceWidth()', function (cb) {
     setFormVal('sequenceWidth', cb);
-    // stage.width(cb);
-    // spotlight.width(cb);
   });
   //sequence height
   cs.evalScript('$.get.sequenceHeight()', function (cb) {
     setFormVal('sequenceHeight', cb);
-    // stage.height(cb);
-    // spotlight.height(cb);
   });
 
   /* clip */
@@ -79,22 +78,41 @@ function fetchSequenceValues() {
     setFormVal('clipAnchorPointY', cb);
   });
   //clip height
-  cs.evalScript('$.get.clipWidth()', function (cb) {
-    setFormVal('clipWidth', cb);
-  });
-  //clip width
   cs.evalScript('$.get.clipHeight()', function (cb) {
     setFormVal('clipHeight', cb);
   });
+  //clip width
+  cs.evalScript('$.get.clipWidth()', function (cb) {
+    setFormVal('clipWidth', cb);
+  });
+  layer.batchDraw();
 }
 
-function snapToPixelGrid() {
-  var blockSize = 10 //size of grid gaps in px
-  spotlight.position({
-    x: Math.round(spotlight.x() / blockSize) * blockSize,
-    y: Math.round(spotlight.y() / blockSize) * blockSize
-  });
-  stage.batchDraw();
+function applyToKonva() {
+  stage.width( getFormVal('stageWidth') );
+  stage.height( getFormVal('stageHeight') );
+  spotlight.x( getFormVal('spotlightX') );
+  spotlight.y( getFormVal('spotlightY') );
+  // spotlight.offsetX( getFormVal('spotlightOffsetX') );
+  // spotlight.offsetY( getFormVal('spotlightOffsetY') );
+  spotlight.height( getFormVal('spotlightHeight') );
+  spotlight.width( getFormVal('spotlightWidth') );
+  spotlight.scaleX( getFormVal('spotlightScaleX') );
+  spotlight.scaleY( getFormVal('spotlightScaleY') );
+  updateText();
+}
+
+function fetchFromKonva() {
+  setFormVal('stageWidth', stage.width() );
+  setFormVal('stageHeight', stage.height() );
+  setFormVal('spotlightX', spotlight.x() );
+  setFormVal('spotlightY', spotlight.y() );
+  // setFormVal('spotlightOffsetX', spotlight.offsetX() );
+  // setFormVal('spotlightOffsetY', spotlight.offsetY() );
+  setFormVal('spotlightHeight', spotlight.height() );
+  setFormVal('spotlightWidth', spotlight.width() );
+  setFormVal('spotlightScaleX', spotlight.scaleX() );
+  setFormVal('spotlightScaleY', spotlight.scaleY() );
 }
 
 function updateText() {
@@ -114,6 +132,15 @@ function updateText() {
     text.text(lines.join('\n'));
     layer.batchDraw();
   }
+}
+
+function snapToPixelGrid() {
+  var blockSize = 10 //size of grid gaps in px
+  spotlight.position({
+    x: Math.round(spotlight.x() / blockSize) * blockSize,
+    y: Math.round(spotlight.y() / blockSize) * blockSize
+  });
+  stage.batchDraw();
 }
 
 function debug() {
