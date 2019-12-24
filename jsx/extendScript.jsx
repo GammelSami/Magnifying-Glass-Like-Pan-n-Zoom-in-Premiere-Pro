@@ -46,7 +46,8 @@ $.set = {
 		getVideoComponentByMatchName("AE.ADBE Motion").properties[0].setValue([x,y], true);
 	},
 	clipScale: function(val) {
-		getVideoComponentByMatchName("AE.ADBE Motion").properties[1].setValue(val, true);
+		var calc = val * 100;
+		getVideoComponentByMatchName("AE.ADBE Motion").properties[1].setValue(calc, true);
 	},
 	clipScaleW: function(val) {
 		getVideoComponentByMatchName("AE.ADBE Motion").properties[2].setValue(val, true);

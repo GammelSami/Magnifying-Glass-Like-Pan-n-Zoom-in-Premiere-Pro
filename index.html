@@ -36,7 +36,7 @@
 					<button onclick="applyToPremiere();">applyToPremiere</button><br>
 				</fieldset>
 			</details>
-			<details open>
+			<details>
 				<summary>Knova Debug Area</summary>
 				<fieldset>
 					stageWidth: 			<input type="number" id="stageWidth"><br>
@@ -111,8 +111,9 @@ layer.add(tr);
 tr.attachTo(spotlight);
 layer.draw();
 
-//debugtext
+//debug stuff
 if (DEBUG) {
+	//debug text
 	var text = new Konva.Text({
 		x: 5,
 		y: 5,
@@ -120,6 +121,8 @@ if (DEBUG) {
 	});
 	layer.add(text);
 	updateText();
+	//debug area
+	fetchFromPremiere();
 }
 
 </script>

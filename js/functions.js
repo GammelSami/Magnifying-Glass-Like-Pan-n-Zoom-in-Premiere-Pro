@@ -102,32 +102,45 @@ function applyToKonva() {
   updateText();
 }
 
-function fetchFromKonva() {
-  setFormVal('stageWidth', stage.width() );
-  setFormVal('stageHeight', stage.height() );
-  setFormVal('spotlightX', spotlight.x() );
-  setFormVal('spotlightY', spotlight.y() );
-  // setFormVal('spotlightOffsetX', spotlight.offsetX() );
-  // setFormVal('spotlightOffsetY', spotlight.offsetY() );
-  setFormVal('spotlightHeight', spotlight.height() );
-  setFormVal('spotlightWidth', spotlight.width() );
-  setFormVal('spotlightScaleX', spotlight.scaleX() );
-  setFormVal('spotlightScaleY', spotlight.scaleY() );
+function konvaToPremiere() {
+  //clip position xy
+  cs.evalScript('$.set.clipPosition('+
+    spotlight.x() + ',' +
+    spotlight.y()
+  +')');
+  //clip scale
+  cs.evalScript('$.set.clipScale('+
+    spotlight.scaleY()
+  +')');
+  //clip scale w
+  cs.evalScript('$.set.clipScaleW('+
+    spotlight.scaleX()
+  +')');
+  //clip rotation
+  cs.evalScript('$.set.clipRotation('+
+    spotlight.rotation()
+  +')');
+  //clip anchorpoint xy
+  cs.evalScript('$.set.clipAnchorPoint('+
+    spotlight.offsetX() + ',' +
+    spotlight.offsetY()
+  +')');
 }
 
 function updateText() {
   if (DEBUG) {
     var lines = [
-      'x: ' + spotlight.x(),
-      'y: ' + spotlight.y(),
-      'rotation: ' + spotlight.rotation(),
-      'width: ' + spotlight.width(),
-      'height: ' + spotlight.height(),
-      'scaleX: ' + spotlight.scaleX(),
-      'scaleY: ' + spotlight.scaleY(),
-      'stageW: ' + stage.width(),
-      'stageH: ' + stage.height()
-
+      'stageWidth' + stage.width(),
+      'stageHeight' + stage.height(),
+      'spotlightX' + spotlight.x(),
+      'spotlightY' + spotlight.y(),
+      'spotlightOffsetX' + spotlight.offsetX(),
+      'spotlightOffsetY' + spotlight.offsetY(),
+      'spotlightHeight' + spotlight.height(),
+      'spotlightWidth' + spotlight.width(),
+      'spotlightScaleX' + spotlight.scaleX(),
+      'spotlightScaleY' + spotlight.scaleY(),
+      'spotlightRotation' + spotlight.rotation(),
     ];
     text.text(lines.join('\n'));
     layer.batchDraw();
