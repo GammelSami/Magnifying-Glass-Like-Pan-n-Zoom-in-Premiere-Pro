@@ -41,13 +41,10 @@ $.get = {
 
 $.set = {
 	clipPosition: function(valX, valY) {
-		var x = valX / $.get.sequenceWidth();
-		var y = valY / $.get.sequenceHeight();
-		getVideoComponentByMatchName("AE.ADBE Motion").properties[0].setValue([x,y], true);
+		getVideoComponentByMatchName("AE.ADBE Motion").properties[0].setValue([valX,valY], true);
 	},
 	clipScale: function(val) {
-		var calc = val * 100;
-		getVideoComponentByMatchName("AE.ADBE Motion").properties[1].setValue(calc, true);
+		getVideoComponentByMatchName("AE.ADBE Motion").properties[1].setValue(val, true);
 	},
 	clipScaleW: function(val) {
 		getVideoComponentByMatchName("AE.ADBE Motion").properties[2].setValue(val, true);

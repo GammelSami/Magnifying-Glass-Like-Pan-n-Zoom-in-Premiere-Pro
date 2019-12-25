@@ -16,4 +16,5 @@ spotlight.on('transformend', function() {
 
 window.addEventListener('resize', () => {
   //updateStageSize();
+  layer.batchDraw();
 });

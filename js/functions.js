@@ -1,5 +1,5 @@
 /********** functions **********/
-
+/*
 function applyToPremiere() {
   //clip position xy
   cs.evalScript('$.set.clipPosition('+
@@ -34,7 +34,7 @@ function fetchFromPremiere() {
   var windowH = window.innerHeight;
   var windowW = window.innerWidth;
 
-  /* sequence */
+  //sequence
   //sequence width
   cs.evalScript('$.get.sequenceWidth()', function (cb) {
     setFormVal('sequenceWidth', cb);
@@ -44,7 +44,7 @@ function fetchFromPremiere() {
     setFormVal('sequenceHeight', cb);
   });
 
-  /* clip */
+  //clip
   //clip x position
   cs.evalScript('$.get.clipPositionX()', function (cb) {
     setFormVal('clipPositionX', cb);
@@ -93,28 +93,61 @@ function applyToKonva() {
   stage.height( getFormVal('stageHeight') );
   spotlight.x( getFormVal('spotlightX') );
   spotlight.y( getFormVal('spotlightY') );
-  // spotlight.offsetX( getFormVal('spotlightOffsetX') );
-  // spotlight.offsetY( getFormVal('spotlightOffsetY') );
+  spotlight.offsetX( getFormVal('spotlightOffsetX') );
+  spotlight.offsetY( getFormVal('spotlightOffsetY') );
   spotlight.height( getFormVal('spotlightHeight') );
   spotlight.width( getFormVal('spotlightWidth') );
   spotlight.scaleX( getFormVal('spotlightScaleX') );
   spotlight.scaleY( getFormVal('spotlightScaleY') );
-  updateText();
+}
+*/
+
+function premiereToKonva() {
+  cs.evalScript('$.get.sequenceWidth()', function (cb) {
+    stage.width( parseFloat(cb) );
+  });
+  cs.evalScript('$.get.sequenceHeight()', function (cb) {
+    stage.height( parseFloat(cb) );
+  });
+  cs.evalScript('$.get.clipPositionX()', function (cb) {
+    spotlight.x( parseFloat(cb) );
+  });
+  cs.evalScript('$.get.clipPositionY()', function (cb) {
+    spotlight.y( parseFloat(cb) );
+  });
+  cs.evalScript('$.get.clipAnchorPointX()', function (cb) {
+    spotlight.offsetX( parseFloat(cb) );
+  });
+  cs.evalScript('$.get.clipAnchorPointY()', function (cb) {
+    spotlight.offsetY( parseFloat(cb) );
+  });
+  cs.evalScript('$.get.clipHeight()', function (cb) {
+    spotlight.height( parseFloat(cb) );
+  });
+  cs.evalScript('$.get.clipWidth()', function (cb) {
+    spotlight.width( parseFloat(cb) );
+  });
+  cs.evalScript('$.get.clipScale()', function (cb) {
+    spotlight.scaleY( parseFloat(cb) / 100 );
+  });
+  cs.evalScript('$.get.clipScaleW()', function (cb) {
+    spotlight.scaleX( parseFloat(cb) / 100 );
+  });
 }
 
 function konvaToPremiere() {
   //clip position xy
   cs.evalScript('$.set.clipPosition('+
-    spotlight.x() + ',' +
-    spotlight.y()
+    (stage.width() - spotlight.x()) / stage.width() + ',' +
+    (stage.height() - spotlight.y()) / stage.height()
   +')');
   //clip scale
   cs.evalScript('$.set.clipScale('+
-    spotlight.scaleY()
+    ((1 / spotlight.scaleY() ) * 100) //magic formular by Hannes
   +')');
   //clip scale w
   cs.evalScript('$.set.clipScaleW('+
-    spotlight.scaleX()
+    ((1 / spotlight.scaleX() ) * 100) //magic formular by Hannes
   +')');
   //clip rotation
   cs.evalScript('$.set.clipRotation('+
@@ -130,17 +163,17 @@ function konvaToPremiere() {
 function updateText() {
   if (DEBUG) {
     var lines = [
-      'stageWidth' + stage.width(),
-      'stageHeight' + stage.height(),
-      'spotlightX' + spotlight.x(),
-      'spotlightY' + spotlight.y(),
-      'spotlightOffsetX' + spotlight.offsetX(),
-      'spotlightOffsetY' + spotlight.offsetY(),
-      'spotlightHeight' + spotlight.height(),
-      'spotlightWidth' + spotlight.width(),
-      'spotlightScaleX' + spotlight.scaleX(),
-      'spotlightScaleY' + spotlight.scaleY(),
-      'spotlightRotation' + spotlight.rotation(),
+      'stageWidth: ' + stage.width(),
+      'stageHeight: ' + stage.height(),
+      'spotlightX: ' + spotlight.x(),
+      'spotlightY: ' + spotlight.y(),
+      'spotlightOffsetX: ' + spotlight.offsetX(),
+      'spotlightOffsetY: ' + spotlight.offsetY(),
+      'spotlightHeight: ' + spotlight.height(),
+      'spotlightWidth: ' + spotlight.width(),
+      'spotlightScaleX: ' + spotlight.scaleX(),
+      'spotlightScaleY: ' + spotlight.scaleY(),
+      'spotlightRotation: ' + spotlight.rotation(),
     ];
     text.text(lines.join('\n'));
     layer.batchDraw();
@@ -166,7 +199,15 @@ function debug() {
   }
 }
 
+var foo = 1;
+function test(a) {
+  alert(foo);
+  foo = a;
+  alert(foo);
+}
+
 /**** getter/setter demo helper ****/
+/*
 function setFormVal(id, val) {
   document.getElementById(id).value = val;
 }
@@ -179,3 +220,4 @@ function getFormVal(id) {
 function getFormChecked(id) {
   return document.getElementById(id).checked;
 }
+*/
