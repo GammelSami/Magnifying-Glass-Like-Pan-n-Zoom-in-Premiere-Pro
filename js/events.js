@@ -1,7 +1,22 @@
+var transforming = false;
+var dragmoving = false;
 var transformed = false;
 var dragmoved = false;
 
 /********** add event listeners **********/
+
+spotlight.on('dragstart', function() {
+  dragmoving = true;
+});
+spotlight.on('dragend', function() {
+  dragmoving = false;
+});
+spotlight.on('transformstart', function() {
+  transforming = true;
+});
+spotlight.on('transformend', function() {
+  transforming = false;
+});
 
 spotlight.on('dragmove', function() {
   dragmoved = true;
@@ -16,6 +31,9 @@ window.addEventListener('resize', () => {
 });
 
 window.addEventListener('DOMContentLoaded', () => {
+  // pullUpdate();
+  pushUpdate();
+
   setTimeout(function () {
     layer.batchDraw();
   }, 50);
@@ -24,11 +42,9 @@ window.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('keydown', (e) => {
     if (e.code == 'F5') location.reload(); //this only reloads the html, not the jsx
   });
-
-  update();
 });
 
-function update() {
+function pushUpdate() {
   setTimeout(function () {
     if (transformed || dragmoved) {
       transformed = false;
@@ -37,6 +53,14 @@ function update() {
     } else {
       // premiereToKonva();
     }
-    update();
+    pushUpdate();
   }, 20);
+}
+
+function pullUpdate() {
+  setTimeout(function () {
+    debug(!transforming && !dragmoving);
+    if (!transforming && !dragmoving) premiereToKonva(); //dont pull while user is editing konva
+    pullUpdate();
+  }, 1000);
 }

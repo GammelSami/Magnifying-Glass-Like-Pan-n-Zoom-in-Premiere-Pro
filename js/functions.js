@@ -136,7 +136,9 @@ function premiereToKonva() {
       cs.evalScript('$.get.clipScaleW()', function (cb) {
         spotlight.scaleX( parseFloat(cb) / 100 );
       });
-
+      setTimeout(function () {
+        layer.batchDraw();
+      }, 200);
     }
   });
 
