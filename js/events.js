@@ -50,8 +50,7 @@ function pushUpdate() {
       transformed = false;
       dragmoved = false;
       konvaToPremiere();
-    } else {
-      // premiereToKonva();
+      updateText();
     }
     pushUpdate();
   }, 20);

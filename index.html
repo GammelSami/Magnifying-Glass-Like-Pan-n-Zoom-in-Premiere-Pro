@@ -83,12 +83,6 @@ var layer = new Konva.Layer();
 stage.add(layer);
 
 var spotlight = new Konva.Rect({
-	x: 100 / 2,
-	y: 100 / 2,
-	width: 100,
-	height: 100,
-	offsetX: 100 / 2,
-	offsetY: 100 / 2,
 	fill: 'red',
 	name: 'spotlight',
 	stroke: 'black',
@@ -106,9 +100,7 @@ layer.add(text);
 var tr = new Konva.Transformer();
 layer.add(tr);
 tr.attachTo(spotlight);
-layer.draw();
 premiereToKonva();
-layer.batchDraw();
 
 //debug stuff
 if (DEBUG) {
