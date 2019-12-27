@@ -103,60 +103,71 @@ function applyToKonva() {
 */
 
 function premiereToKonva() {
-  cs.evalScript('$.get.sequenceWidth()', function (cb) {
-    stage.width( parseFloat(cb) );
+  cs.evalScript('$.get.hasSelectedVideo()', function (cb) {
+    if (cb==='true') {
+
+      cs.evalScript('$.get.sequenceWidth()', function (cb) {
+        stage.width( parseFloat(cb) );
+      });
+      cs.evalScript('$.get.sequenceHeight()', function (cb) {
+        stage.height( parseFloat(cb) );
+      });
+      cs.evalScript('$.get.clipPositionX()', function (cb) {
+        spotlight.x( parseFloat(cb) );
+      });
+      cs.evalScript('$.get.clipPositionY()', function (cb) {
+        spotlight.y( parseFloat(cb) );
+      });
+      cs.evalScript('$.get.clipAnchorPointX()', function (cb) {
+        spotlight.offsetX( parseFloat(cb) );
+      });
+      cs.evalScript('$.get.clipAnchorPointY()', function (cb) {
+        spotlight.offsetY( parseFloat(cb) );
+      });
+      cs.evalScript('$.get.clipHeight()', function (cb) {
+        spotlight.height( parseFloat(cb) );
+      });
+      cs.evalScript('$.get.clipWidth()', function (cb) {
+        spotlight.width( parseFloat(cb) );
+      });
+      cs.evalScript('$.get.clipScale()', function (cb) {
+        spotlight.scaleY( parseFloat(cb) / 100 );
+      });
+      cs.evalScript('$.get.clipScaleW()', function (cb) {
+        spotlight.scaleX( parseFloat(cb) / 100 );
+      });
+
+    }
   });
-  cs.evalScript('$.get.sequenceHeight()', function (cb) {
-    stage.height( parseFloat(cb) );
-  });
-  cs.evalScript('$.get.clipPositionX()', function (cb) {
-    spotlight.x( parseFloat(cb) );
-  });
-  cs.evalScript('$.get.clipPositionY()', function (cb) {
-    spotlight.y( parseFloat(cb) );
-  });
-  cs.evalScript('$.get.clipAnchorPointX()', function (cb) {
-    spotlight.offsetX( parseFloat(cb) );
-  });
-  cs.evalScript('$.get.clipAnchorPointY()', function (cb) {
-    spotlight.offsetY( parseFloat(cb) );
-  });
-  cs.evalScript('$.get.clipHeight()', function (cb) {
-    spotlight.height( parseFloat(cb) );
-  });
-  cs.evalScript('$.get.clipWidth()', function (cb) {
-    spotlight.width( parseFloat(cb) );
-  });
-  cs.evalScript('$.get.clipScale()', function (cb) {
-    spotlight.scaleY( parseFloat(cb) / 100 );
-  });
-  cs.evalScript('$.get.clipScaleW()', function (cb) {
-    spotlight.scaleX( parseFloat(cb) / 100 );
-  });
+
 }
 
 function konvaToPremiere() {
   //clip position xy
   cs.evalScript('$.set.clipPosition('+
-    (stage.width() - spotlight.x()) / stage.width() + ',' +
-    (stage.height() - spotlight.y()) / stage.height()
+    //magic formular by sami
+    spotlight.offsetX() / stage.width() + ',' +
+    spotlight.offsetY() / stage.height()
   +')');
   //clip scale
   cs.evalScript('$.set.clipScale('+
-    ((1 / spotlight.scaleY() ) * 100) //magic formular by Hannes
+    //magic formular by Hannes
+    ((1 / spotlight.scaleY() ) * 100)
   +')');
   //clip scale w
   cs.evalScript('$.set.clipScaleW('+
-    ((1 / spotlight.scaleX() ) * 100) //magic formular by Hannes
+    //magic formular by Hannes
+    ((1 / spotlight.scaleX() ) * 100)
   +')');
   //clip rotation
   cs.evalScript('$.set.clipRotation('+
-    spotlight.rotation()
+    -spotlight.rotation() //negative rotation
   +')');
   //clip anchorpoint xy
   cs.evalScript('$.set.clipAnchorPoint('+
-    spotlight.offsetX() + ',' +
-    spotlight.offsetY()
+    //magic formular by sami
+    spotlight.x() + ',' +
+    spotlight.y()
   +')');
 }
 
@@ -180,30 +191,12 @@ function updateText() {
   }
 }
 
-function snapToPixelGrid() {
-  var blockSize = 10 //size of grid gaps in px
-  spotlight.position({
-    x: Math.round(spotlight.x() / blockSize) * blockSize,
-    y: Math.round(spotlight.y() / blockSize) * blockSize
-  });
-  stage.batchDraw();
-}
-
 function debug() {
   if (DEBUG) {
     for (var i = 0; i < arguments.length; i++) {
-      var log = document.getElementById('debug');
-      var tmp = log.value;
-      log.value = arguments[i] + '\n' + tmp;
+      cs.evalScript('$.set.debug('+ arguments[i] +')');
     }
   }
-}
-
-var foo = 1;
-function test(a) {
-  alert(foo);
-  foo = a;
-  alert(foo);
 }
 
 /**** getter/setter demo helper ****/

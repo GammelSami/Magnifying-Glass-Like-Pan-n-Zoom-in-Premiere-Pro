@@ -1,4 +1,8 @@
 $.get = {
+	hasSelectedVideo: function() {
+		if (getSelectedVideo()) return true;
+		else return false;
+	},
 	sequenceWidth: function() {
 		return getSeq().getSettings().videoFrameWidth;
 	},
@@ -60,18 +64,22 @@ $.set = {
 		var y = valY / $.get.sequenceHeight();
 		getVideoComponentByMatchName("AE.ADBE Motion").properties[5].setValue([x,y], true);
 	},
+	debug: function (str) {
+		debug(str);
+	}
 }
 
 /***** helper *****/
 //app.enableQE();
 
 function getSeq() {
-	return app.project.activeSequence;
+	var val = app.project.activeSequence;
+	if (val) return val;
 }
 
 function getSelectedVideos() {
 	var sel = getSeq().getSelection();
-	if (!sel) return 'no clips selected!';
+	if (!sel) return false; //no clips selected
 	var vids = [];
 	for (var i = 0; i < sel.length; i++) {
 		if (sel[i].mediaType === "Video") { //only keep video clips
@@ -83,18 +91,20 @@ function getSelectedVideos() {
 
 function getSelectedVideo() {
 	var vids = getSelectedVideos();
+	if (!vids) return false; //no clips selected
 	if (vids.length === 1) return vids[0];
-	else return 'multiple video clips selected!';
+	else false; //'multiple video clips selected!';
 }
 
 function getVideoComponentByMatchName(name) { // get effect from selected video clip by matchName
-	var components = getSelectedVideo().components;
-	if (!components) return 'no components found. faild to get "' + name + '" component!';
+	var vid = getSelectedVideo();
+	if (!vid) return false; //'no components found. faild to get "' + name + '" component!';
+	var components = vid.components;
 	for (var i = 0; i < components.numItems; i++) {
 		//returns only the first match, even if there are multiple components with this name!
 		if (components[i].matchName === name) return components[i];
 	}
-	return 'video component "' + name + '" not found on this clip!';
+	return false; //'video component "' + name + '" not found on this clip!'
 }
 
 function debug() {

@@ -55,17 +55,14 @@
 			</details>
 		</div>
 		<div id="stage">Something went wrong. Try to reload the Panel or press F5 for soft reload.</div><br>
-		<button onclick="layer.batchDraw();">redraw</button>
+		<button onclick="premiereToKonva();">premiereToKonva</button>
+		<button onclick="konvaToPremiere();">konvaToPremiere</button>
 	</body>
 </html>
 
 
 
 <script>//footer script
-//refresh on F5
-window.addEventListener('keydown', (e) => {
-	if (e.code == 'F5') location.reload(); //this only reloads the html, not the jsx
-})
 //hide debug area
 if (!DEBUG) document.getElementById('debugArea').style.display = 'none';
 </script>
