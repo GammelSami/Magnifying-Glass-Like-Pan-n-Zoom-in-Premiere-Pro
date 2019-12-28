@@ -30,8 +30,12 @@ window.addEventListener('resize', () => {
   layer.batchDraw();
 });
 
+window.addEventListener('mouseover', () => {
+  premiereToKonva();
+})
+
 window.addEventListener('DOMContentLoaded', () => {
-  // pullUpdate();
+  pullUpdate();
   pushUpdate();
 
   setTimeout(function () {
@@ -61,5 +65,5 @@ function pullUpdate() {
     debug(!transforming && !dragmoving);
     if (!transforming && !dragmoving) premiereToKonva(); //dont pull while user is editing konva
     pullUpdate();
-  }, 1000);
+  }, 1200);
 }

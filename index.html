@@ -9,7 +9,8 @@
     <!-- USE konva DEVELOPMENT VERSION --><script src="lib/konva.min.js"></script>
 		<script src="js/functions.js"></script>
 		<script>
-			const DEBUG = true;
+			const DEBUG = false;
+			var clipScaleSync;
 			var cs = new CSInterface();
 		</script>
 	</head>
@@ -53,10 +54,10 @@
 					<button onclick="fetchFromKonva()">fetchFromKonva</button>
 				</fieldset>
 			</details>
+			<button onclick="premiereToKonva();">premiereToKonva</button>
+			<button onclick="konvaToPremiere();">konvaToPremiere</button>
 		</div>
 		<div id="stage">Something went wrong. Try to reload the Panel or press F5 for soft reload.</div><br>
-		<button onclick="premiereToKonva();">premiereToKonva</button>
-		<button onclick="konvaToPremiere();">konvaToPremiere</button>
 	</body>
 </html>
 
@@ -75,8 +76,6 @@ if (!DEBUG) document.getElementById('debugArea').style.display = 'none';
 
 var stage = new Konva.Stage({
 	container: 'stage',
-	width: 100,
-	height: 100
 });
 
 var layer = new Konva.Layer();

@@ -107,34 +107,47 @@ function premiereToKonva() {
     if (cb==='true') {
 
       cs.evalScript('$.get.sequenceWidth()', function (cb) {
-        stage.width( parseFloat(cb) );
+        stage.width( Number(cb) );
       });
       cs.evalScript('$.get.sequenceHeight()', function (cb) {
-        stage.height( parseFloat(cb) );
+        stage.height( Number(cb) );
       });
       cs.evalScript('$.get.clipPositionX()', function (cb) {
-        spotlight.x( parseFloat(cb) );
+        spotlight.offsetX( Number(cb) );
       });
       cs.evalScript('$.get.clipPositionY()', function (cb) {
-        spotlight.y( parseFloat(cb) );
+        spotlight.offsetY( Number(cb) );
       });
       cs.evalScript('$.get.clipAnchorPointX()', function (cb) {
-        spotlight.offsetX( parseFloat(cb) );
+        spotlight.x( Number(cb) );
       });
       cs.evalScript('$.get.clipAnchorPointY()', function (cb) {
-        spotlight.offsetY( parseFloat(cb) );
+        spotlight.y( Number(cb) );
       });
       cs.evalScript('$.get.clipHeight()', function (cb) {
-        spotlight.height( parseFloat(cb) );
+        spotlight.height( Number(cb) );
       });
       cs.evalScript('$.get.clipWidth()', function (cb) {
-        spotlight.width( parseFloat(cb) );
+        spotlight.width( Number(cb) );
+      });
+      cs.evalScript('$.get.clipRotation()', function (cb) {
+        spotlight.rotation( -Number(cb) );
       });
       cs.evalScript('$.get.clipScale()', function (cb) {
-        spotlight.scaleY( parseFloat(cb) / 100 );
+        spotlight.scaleY(calcScalePremiereToKonva(cb));
       });
-      cs.evalScript('$.get.clipScaleW()', function (cb) {
-        spotlight.scaleX( parseFloat(cb) / 100 );
+      cs.evalScript('$.get.clipScaleSync()', function (cb) {
+        if(cb==='true') {
+          setClipScaleSync(true);
+          cs.evalScript('$.get.clipScale()', function (cb) {
+            spotlight.scaleX(calcScalePremiereToKonva(cb));
+          });
+        } else {
+          setClipScaleSync(false);
+          cs.evalScript('$.get.clipScaleW()', function (cb) {
+            spotlight.scaleX(calcScalePremiereToKonva(cb));
+          });
+        }
         layer.batchDraw();
         updateText();
       });
@@ -147,8 +160,8 @@ function konvaToPremiere() {
   //clip position xy
   cs.evalScript('$.set.clipPosition('+
     //magic formular by sami
-    spotlight.offsetX() / stage.width() + ',' +
-    spotlight.offsetY() / stage.height()
+    spotlight.offsetX() + ',' +
+    spotlight.offsetY()
   +')');
   //clip scale
   cs.evalScript('$.set.clipScale('+
@@ -170,6 +183,16 @@ function konvaToPremiere() {
     spotlight.x() + ',' +
     spotlight.y()
   +')');
+}
+
+function setClipScaleSync(bool) {
+  clipScaleSync = bool;
+}
+
+function calcScalePremiereToKonva(cb) {
+  var x = Number(cb) / 100;
+  var calc = x / Math.pow(x, 2);
+  return calc;
 }
 
 function updateText() {
