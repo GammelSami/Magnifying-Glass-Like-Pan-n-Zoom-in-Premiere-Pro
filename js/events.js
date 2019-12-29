@@ -2,22 +2,21 @@ var transforming = false;
 var dragmoving = false;
 var transformed = false;
 var dragmoved = false;
-var focused = true;
 var lastPosition = {x: null, y: null};
+var liveupdate = document.getElementById('liveupdate');
 
 /********** add event listeners **********/
 
 spotlight.on('dragstart', function() {
   dragmoving = true;
-  focused = true;
   pushUpdate();
 });
 spotlight.on('dragend', function() {
+  konvaToPremiere();
   dragmoving = false;
 });
 spotlight.on('transformstart', function() {
   transforming = true;
-  focused = true;
   pushUpdate();
   lastPosition = {
     x: spotlight.x(),
@@ -25,6 +24,7 @@ spotlight.on('transformstart', function() {
   };
 });
 spotlight.on('transformend', function() {
+  konvaToPremiere();
   transforming = false;
 });
 
@@ -51,12 +51,10 @@ window.addEventListener('resize', () => {
 });
 
 window.addEventListener('focus', () => {
-  focused = true;
   pushUpdate();
 });
 
 window.addEventListener('blur', () => {
-  focused = false;
 });
 
 window.addEventListener('mouseover', () => {
@@ -65,11 +63,7 @@ window.addEventListener('mouseover', () => {
 
 window.addEventListener('DOMContentLoaded', () => {
   pullUpdate();
-
-  setTimeout(function () {
-    layer.batchDraw();
-  }, 50);
-
+  pushUpdate();
 });
 
 window.addEventListener('keydown', (e) => {
@@ -88,20 +82,21 @@ window.addEventListener('keyup', (e) => {
 });
 
 function pushUpdate() {
-  setTimeout(function () {
+  if (liveupdate.checked) setTimeout(function () {
     if (transformed || dragmoved) {
       transformed = false;
       dragmoved = false;
       konvaToPremiere();
       updateText();
     }
-    if (focused) pushUpdate();
+    if (document.hasFocus()) pushUpdate();
+    if (document.hasFocus() && DEBUG) document.getElementById('userfeedback').innerText = 'focused';
+    else if (DEBUG) document.getElementById('userfeedback').innerText = 'not focused';
   }, 20);
 }
 
 function pullUpdate() {
   setTimeout(function () {
-    debug(!transforming && !dragmoving);
     if (!transforming && !dragmoving) premiereToKonva(); //dont pull while user is editing konva
     pullUpdate();
   }, 800);
