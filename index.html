@@ -10,7 +10,6 @@
 		<script src="js/functions.js"></script>
 		<script>
 			const DEBUG = false;
-			var clipScaleSync;
 			var cs = new CSInterface();
 		</script>
 	</head>
@@ -93,6 +92,7 @@ layer.add(spotlight);
 // create new transformer
 var tr = new Konva.Transformer({
 	rotationSnaps: [0, 90, 180, 270],
+	enabledAnchors: ['top-left', 'top-right', 'bottom-left', 'bottom-right', 'right'],
 });
 layer.add(tr);
 tr.attachTo(spotlight);

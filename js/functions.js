@@ -103,6 +103,23 @@ function applyToKonva() {
 */
 
 var userfeedback = document.getElementById('userfeedback');
+var clipScaleSyncFalseHandles = [
+  'top-left',
+  'top-center',
+  'top-right',
+  'middle-right',
+  'middle-left',
+  'bottom-left',
+  'bottom-center',
+  'bottom-right'
+];
+var clipScaleSyncTrueHandles = [
+  'top-left',
+  'top-right',
+  'bottom-left',
+  'bottom-right',
+  'right'
+];
 
 function premiereToKonva() {
   cs.evalScript('$.get.hasSelectedVideo()', function (cb) {
@@ -141,13 +158,13 @@ function premiereToKonva() {
       });
       cs.evalScript('$.get.clipScaleSync()', function (cb) {
         if(cb==='true') {
-          setClipScaleSync(true);
+          tr.enabledAnchors(clipScaleSyncTrueHandles);
           cs.evalScript('$.get.clipScale()', function (cb) {
             spotlight.scaleX(calcScalePremiereToKonva(cb));
             layer.batchDraw();
           });
         } else {
-          setClipScaleSync(false);
+          tr.enabledAnchors(clipScaleSyncFalseHandles);
           cs.evalScript('$.get.clipScaleW()', function (cb) {
             spotlight.scaleX(calcScalePremiereToKonva(cb));
             layer.batchDraw();
@@ -191,10 +208,6 @@ function konvaToPremiere() {
     spotlight.x() + ',' +
     spotlight.y()
   +')');
-}
-
-function setClipScaleSync(bool) {
-  clipScaleSync = bool;
 }
 
 function calcScalePremiereToKonva(cb) {
