@@ -15,7 +15,7 @@
 		</script>
 	</head>
 	<body>
-		<div id="debugArea">
+		<!-- <div id="debugArea">
 			<details>
 				<summary>Premiere Debug Area</summary>
 				<fieldset>
@@ -56,7 +56,8 @@
 			</details>
 			<button onclick="premiereToKonva();">premiereToKonva</button>
 			<button onclick="konvaToPremiere();">konvaToPremiere</button>
-		</div>
+		</div> -->
+		<div id="userfeedback"></div>
 		<div id="stage">Something went wrong. Try to reload the Panel or press F5 for soft reload.</div><br>
 	</body>
 </html>
@@ -82,29 +83,25 @@ var layer = new Konva.Layer();
 stage.add(layer);
 
 var spotlight = new Konva.Rect({
-	fill: 'red',
 	name: 'spotlight',
-	stroke: 'black',
 	draggable: true
 });
 layer.add(spotlight);
 
-var text = new Konva.Text({
-	x: 5,
-	y: 5
-});
-layer.add(text);
 
 // create new transformer
-var tr = new Konva.Transformer();
+var tr = new Konva.Transformer({
+	rotationSnaps: [0, 90, 180, 270],
+});
 layer.add(tr);
 tr.attachTo(spotlight);
 premiereToKonva();
 
 //debug stuff
+var text;
 if (DEBUG) {
 	//debug text
-	var text = new Konva.Text({
+	text = new Konva.Text({
 		x: 5,
 		y: 5,
 		fill: '#B9B9B9' //textcolor from css

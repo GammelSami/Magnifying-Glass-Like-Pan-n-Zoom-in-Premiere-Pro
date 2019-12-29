@@ -102,9 +102,12 @@ function applyToKonva() {
 }
 */
 
+var userfeedback = document.getElementById('userfeedback');
+
 function premiereToKonva() {
   cs.evalScript('$.get.hasSelectedVideo()', function (cb) {
     if (cb==='true') {
+      document.getElementById('userfeedback').innerText = '';
 
       cs.evalScript('$.get.sequenceWidth()', function (cb) {
         stage.width( Number(cb) );
@@ -141,16 +144,21 @@ function premiereToKonva() {
           setClipScaleSync(true);
           cs.evalScript('$.get.clipScale()', function (cb) {
             spotlight.scaleX(calcScalePremiereToKonva(cb));
+            layer.batchDraw();
           });
         } else {
           setClipScaleSync(false);
           cs.evalScript('$.get.clipScaleW()', function (cb) {
             spotlight.scaleX(calcScalePremiereToKonva(cb));
+            layer.batchDraw();
           });
         }
-        layer.batchDraw();
         updateText();
       });
+    } else {
+      document.getElementById('userfeedback').innerText = '(no video clip selected)';
+      stage.width(0);
+      stage.height(0);
     }
   });
 

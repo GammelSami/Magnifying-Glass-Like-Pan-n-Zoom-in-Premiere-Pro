@@ -2,17 +2,27 @@ var transforming = false;
 var dragmoving = false;
 var transformed = false;
 var dragmoved = false;
+var focused = true;
+var lastPosition = {x: null, y: null};
 
 /********** add event listeners **********/
 
 spotlight.on('dragstart', function() {
   dragmoving = true;
+  focused = true;
+  pushUpdate();
 });
 spotlight.on('dragend', function() {
   dragmoving = false;
 });
 spotlight.on('transformstart', function() {
   transforming = true;
+  focused = true;
+  pushUpdate();
+  lastPosition = {
+    x: spotlight.x(),
+    y: spotlight.y()
+  };
 });
 spotlight.on('transformend', function() {
   transforming = false;
@@ -23,6 +33,16 @@ spotlight.on('dragmove', function() {
 });
 spotlight.on('transform', function() {
   transformed = true;
+
+  //prevent negative scaling:
+  if (spotlight.scaleY() < 1/100) {
+    tr.stopTransform();
+    spotlight.scaleY(1/100);
+  }
+  if (spotlight.scaleX() < 1/100) {
+    tr.stopTransform();
+    spotlight.scaleX(1/100);
+  }
 });
 
 window.addEventListener('resize', () => {
@@ -30,22 +50,41 @@ window.addEventListener('resize', () => {
   layer.batchDraw();
 });
 
+window.addEventListener('focus', () => {
+  focused = true;
+  pushUpdate();
+});
+
+window.addEventListener('blur', () => {
+  focused = false;
+});
+
 window.addEventListener('mouseover', () => {
   premiereToKonva();
-})
+});
 
 window.addEventListener('DOMContentLoaded', () => {
   pullUpdate();
-  pushUpdate();
 
   setTimeout(function () {
     layer.batchDraw();
   }, 50);
 
+});
+
+window.addEventListener('keydown', (e) => {
   //refresh on F5
-  window.addEventListener('keydown', (e) => {
-    if (e.code == 'F5') location.reload(); //this only reloads the html, not the jsx
-  });
+  if (e.code == 'F5') location.reload(); //this only reloads the html, not the jsx
+  if (e.key == 'Alt') {
+    spotlight.x(lastPosition.x);
+    spotlight.y(lastPosition.y);
+    tr.centeredScaling(true);
+  }
+});
+window.addEventListener('keyup', (e) => {
+  if (e.key == 'Alt') {
+    tr.centeredScaling(false);
+  }
 });
 
 function pushUpdate() {
@@ -56,7 +95,7 @@ function pushUpdate() {
       konvaToPremiere();
       updateText();
     }
-    pushUpdate();
+    if (focused) pushUpdate();
   }, 20);
 }
 
@@ -65,5 +104,5 @@ function pullUpdate() {
     debug(!transforming && !dragmoving);
     if (!transforming && !dragmoving) premiereToKonva(); //dont pull while user is editing konva
     pullUpdate();
-  }, 1200);
+  }, 800);
 }
