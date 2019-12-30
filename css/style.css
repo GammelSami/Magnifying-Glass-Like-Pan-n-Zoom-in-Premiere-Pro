@@ -15,7 +15,7 @@
 #stage {
   position: absolute;
   overflow: visible;
-  background-color: grey;/* #262626 */
+  background-color: #454545;/* #262626 */
 }
 
 .konvajs-content, canvas {

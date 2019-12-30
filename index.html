@@ -57,6 +57,7 @@
 			<button onclick="konvaToPremiere();">konvaToPremiere</button>
 		</div> -->
 		<label><input type="checkbox" id="liveupdate">Live update</label>
+		<button onclick="resetSpotlight();">↺ Reset</button>
 		<div id="userfeedback"></div>
 		<div id="stage">Something went wrong. Try to reload the Panel or press F5 for soft reload.</div><br>
 	</body>
@@ -83,9 +84,12 @@ layer.add(spotlight);
 // create new transformer
 var tr = new Konva.Transformer({
 	rotationSnaps: [0, 90, 180, 270],
-	anchorStroke: '#558ef0',
+	borderStroke: '#2d8ceb',
+	borderStrokeWidth: 2,
+	anchorStroke: '#2d8ceb',
 	anchorFill: '#f4f4f4',
-	anchorSize: 20,
+	anchorSize: 12,
+	anchorCornerRadius: 6,
 	enabledAnchors: ['top-left', 'top-right', 'bottom-left', 'bottom-right', 'right'],
 });
 layer.add(tr);

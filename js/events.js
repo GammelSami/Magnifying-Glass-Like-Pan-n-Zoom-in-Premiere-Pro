@@ -38,10 +38,12 @@ spotlight.on('transform', function() {
   if (spotlight.scaleY() < 1/100) {
     tr.stopTransform();
     spotlight.scaleY(1/100);
+    premiereToKonva();
   }
   if (spotlight.scaleX() < 1/100) {
     tr.stopTransform();
     spotlight.scaleX(1/100);
+    premiereToKonva();
   }
 });
 
@@ -100,4 +102,16 @@ function pullUpdate() {
     if (!transforming && !dragmoving && !document.hasFocus()) premiereToKonva(); //dont pull while user is editing konva
     pullUpdate();
   }, 800);
+}
+
+function resetSpotlight() {
+  spotlight.x(stage.width() / 2);
+  spotlight.y(stage.height() / 2);
+  spotlight.offsetX(stage.width() / 2);
+  spotlight.offsetY(stage.height() / 2);
+  spotlight.scaleX(1);
+  spotlight.scaleY(1);
+  spotlight.rotation(0);
+  layer.batchDraw();
+  konvaToPremiere();
 }
