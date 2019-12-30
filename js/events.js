@@ -97,7 +97,7 @@ function pushUpdate() {
 
 function pullUpdate() {
   setTimeout(function () {
-    if (!transforming && !dragmoving) premiereToKonva(); //dont pull while user is editing konva
+    if (!transforming && !dragmoving && !document.hasFocus()) premiereToKonva(); //dont pull while user is editing konva
     pullUpdate();
   }, 800);
 }

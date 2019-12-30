@@ -47,19 +47,19 @@ $.set = {
 	clipPosition: function(valX, valY) {
 		var x = valX / $.get.sequenceWidth();
 		var y = valY / $.get.sequenceHeight();
-		getVideoComponentByMatchName("AE.ADBE Motion").properties[0].setValue([x,y], true);
+		getVideoComponentByMatchName("AE.ADBE Motion").properties[0].setValue([x,y], false);
 	},
 	clipScale: function(val) {
-		getVideoComponentByMatchName("AE.ADBE Motion").properties[1].setValue(val, true);
+		getVideoComponentByMatchName("AE.ADBE Motion").properties[1].setValue(val, false);
 	},
 	clipScaleW: function(val) {
-		getVideoComponentByMatchName("AE.ADBE Motion").properties[2].setValue(val, true);
+		getVideoComponentByMatchName("AE.ADBE Motion").properties[2].setValue(val, false);
 	},
 	clipScaleSync: function(val) {
-		getVideoComponentByMatchName("AE.ADBE Motion").properties[3].setValue(val, true);
+		getVideoComponentByMatchName("AE.ADBE Motion").properties[3].setValue(val, false);
 	},
 	clipRotation: function(val) {
-		getVideoComponentByMatchName("AE.ADBE Motion").properties[4].setValue(val, true);
+		getVideoComponentByMatchName("AE.ADBE Motion").properties[4].setValue(val, false);
 	},
 	clipAnchorPoint: function(valX, valY) {
 		var x = valX / $.get.sequenceWidth();

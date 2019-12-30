@@ -8,21 +8,28 @@
   user-select: none;
   cursor: default;
 }
+/* :root::-webkit-scrollbar {
+  display: none;
+} */
 
 #stage {
+  position: absolute;
+  overflow: visible;
   background-color: grey;/* #262626 */
-  display: inline-block;
-  max-width: 100%;
-  max-height: 100%;
 }
 
-canvas#stage {
-  image-rendering: optimizeSpeed;
+.konvajs-content, canvas {
+  /* width: calc(100vw - 16px) !important;
+  height: auto !important;
+  max-height: calc(100vh - 16px - 1.2em);
+  object-fit: contain; */
+
+  /* image-rendering: optimizeSpeed;
   image-rendering: -moz-crisp-edges;
   image-rendering: -webkit-optimize-contrast;
   image-rendering: optimize-contrast;
   image-rendering: pixelated;
-  -ms-interpolation-mode: nearest-neighbor;
+  -ms-interpolation-mode: nearest-neighbor; */
 }
 
 #userfeedback {
