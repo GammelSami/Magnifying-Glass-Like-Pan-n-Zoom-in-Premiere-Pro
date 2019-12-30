@@ -161,22 +161,22 @@ function premiereToKonva() {
 
       });
       cs.evalScript('$.get.clipPositionX()', function (cb) {
-        spotlight.offsetX( Number(cb) );
+        spotlight.offsetX( Number(cb) / sequenceWidth * stage.width() );
       });
       cs.evalScript('$.get.clipPositionY()', function (cb) {
-        spotlight.offsetY( Number(cb) );
+        spotlight.offsetY( Number(cb) / sequenceHeight * stage.height() );
       });
       cs.evalScript('$.get.clipAnchorPointX()', function (cb) {
-        spotlight.x( Number(cb) );
+        spotlight.x( Number(cb) / sequenceWidth * stage.width() );
       });
       cs.evalScript('$.get.clipAnchorPointY()', function (cb) {
-        spotlight.y( Number(cb) );
+        spotlight.y( Number(cb) / sequenceHeight * stage.height() );
       });
       cs.evalScript('$.get.clipHeight()', function (cb) {
-        spotlight.height( Number(cb) );
+        spotlight.height( Number(cb) / sequenceHeight * stage.height() );
       });
       cs.evalScript('$.get.clipWidth()', function (cb) {
-        spotlight.width( Number(cb) );
+        spotlight.width( Number(cb) / sequenceWidth * stage.width() );
       });
       cs.evalScript('$.get.clipRotation()', function (cb) {
         spotlight.rotation( -Number(cb) );
@@ -213,8 +213,8 @@ function konvaToPremiere() {
   //clip position xy
   cs.evalScript('$.set.clipPosition('+
     //not so magic "formular" by sami
-    spotlight.offsetX() + ',' +
-    spotlight.offsetY()
+    spotlight.offsetX() / stage.width() * sequenceWidth + ',' +
+    spotlight.offsetY() / stage.height() * sequenceHeight
   +')');
   //clip scale
   cs.evalScript('$.set.clipScale('+
@@ -233,8 +233,8 @@ function konvaToPremiere() {
   //clip anchorpoint xy
   cs.evalScript('$.set.clipAnchorPoint('+
     //not so magic "formular" by sami
-    spotlight.x() + ',' +
-    spotlight.y()
+    spotlight.x() / stage.width() * sequenceWidth + ',' +
+    spotlight.y() / stage.height() * sequenceHeight
   +')');
 }
 
