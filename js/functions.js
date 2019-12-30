@@ -120,6 +120,9 @@ var clipScaleSyncTrueHandles = [
   'bottom-right',
   'right'
 ];
+var sequenceWidth, sequenceHeight, aspectRatio;
+var bodyMargin = 8 + 8;
+var settingsHeight = 20;
 
 function premiereToKonva() {
   cs.evalScript('$.get.hasSelectedVideo()', function (cb) {
@@ -127,10 +130,35 @@ function premiereToKonva() {
       document.getElementById('userfeedback').innerText = '';
 
       cs.evalScript('$.get.sequenceWidth()', function (cb) {
-        stage.width( Number(cb) );
+        sequenceWidth = Number(cb);
       });
       cs.evalScript('$.get.sequenceHeight()', function (cb) {
-        stage.height( Number(cb) );
+        sequenceHeight = Number(cb);
+
+        // https://stackoverflow.com/a/3971875
+
+        var maxWidth = window.innerWidth - bodyMargin; // Max width for the image
+        var maxHeight = window.innerHeight - bodyMargin - settingsHeight; // Max height for the image
+        var ratio;  // Used for aspect ratio
+        var width = sequenceWidth;    // Current image width
+        var height = sequenceHeight;  // Current image height
+
+        // Check if the current width is larger than the max
+        if(true || width > maxWidth) {
+            ratio = maxWidth / width;   // get ratio for scaling image
+            stage.width(maxWidth); // Set new width
+            stage.height(height * ratio);  // Scale height based on ratio
+            height = height * ratio;    // Reset height to match scaled image
+            width = width * ratio;    // Reset width to match scaled image
+        }
+
+        // Check if current height is larger than max
+        if(height > maxHeight) {
+            ratio = maxHeight / height; // get ratio for scaling image
+            stage.height(maxHeight);   // Set new height
+            stage.width(width * ratio);    // Scale width based on ratio
+        }
+
       });
       cs.evalScript('$.get.clipPositionX()', function (cb) {
         spotlight.offsetX( Number(cb) );
@@ -184,7 +212,7 @@ function premiereToKonva() {
 function konvaToPremiere() {
   //clip position xy
   cs.evalScript('$.set.clipPosition('+
-    //magic formular by sami
+    //not so magic "formular" by sami
     spotlight.offsetX() + ',' +
     spotlight.offsetY()
   +')');
@@ -204,7 +232,7 @@ function konvaToPremiere() {
   +')');
   //clip anchorpoint xy
   cs.evalScript('$.set.clipAnchorPoint('+
-    //magic formular by sami
+    //not so magic "formular" by sami
     spotlight.x() + ',' +
     spotlight.y()
   +')');

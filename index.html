@@ -9,7 +9,7 @@
     <!-- USE konva DEVELOPMENT VERSION --><script src="lib/konva.min.js"></script>
 		<script src="js/functions.js"></script>
 		<script>
-			const DEBUG = false;
+			const DEBUG = true;
 			var cs = new CSInterface();
 		</script>
 	</head>
@@ -83,6 +83,9 @@ layer.add(spotlight);
 // create new transformer
 var tr = new Konva.Transformer({
 	rotationSnaps: [0, 90, 180, 270],
+	anchorStroke: '#558ef0',
+	anchorFill: '#f4f4f4',
+	anchorSize: 20,
 	enabledAnchors: ['top-left', 'top-right', 'bottom-left', 'bottom-right', 'right'],
 });
 layer.add(tr);
