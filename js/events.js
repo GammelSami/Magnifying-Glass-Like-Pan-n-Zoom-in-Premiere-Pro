@@ -13,6 +13,7 @@ spotlight.on('dragstart', function() {
 });
 spotlight.on('dragend', function() {
   konvaToPremiere();
+  updateText();
   dragmoving = false;
 });
 spotlight.on('transformstart', function() {
@@ -25,6 +26,7 @@ spotlight.on('transformstart', function() {
 });
 spotlight.on('transformend', function() {
   konvaToPremiere();
+  updateText();
   transforming = false;
 });
 
@@ -76,7 +78,7 @@ window.addEventListener('keydown', (e) => {
     spotlight.y(lastPosition.y);
     tr.centeredScaling(true);
   }
-});
+}, true);
 window.addEventListener('keyup', (e) => {
   if (e.key == 'Alt') {
     tr.centeredScaling(false);
@@ -89,7 +91,6 @@ function pushUpdate() {
       transformed = false;
       dragmoved = false;
       konvaToPremiere();
-      updateText();
     }
     if (document.hasFocus()) pushUpdate();
     if (document.hasFocus() && DEBUG) document.getElementById('userfeedback').innerText = 'focused';

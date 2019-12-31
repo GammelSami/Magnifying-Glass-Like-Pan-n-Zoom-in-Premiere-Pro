@@ -11,6 +11,45 @@
 		<script>
 			const DEBUG = false;
 			var cs = new CSInterface();
+
+
+			(function () {
+				console.log = function (message) {
+					if (typeof message == 'object') {
+						alert((JSON && JSON.stringify ? JSON.stringify(message) : message) );
+					} else {
+						alert(message);
+					}
+				}
+				console.error = function (message) {
+					if (typeof message == 'object') {
+						alert((JSON && JSON.stringify ? JSON.stringify(message) : message) );
+					} else {
+						alert(message);
+					}
+				}
+				console.warn = function (message) {
+					if (typeof message == 'object') {
+						alert((JSON && JSON.stringify ? JSON.stringify(message) : message) );
+					} else {
+						alert(message);
+					}
+				}
+				console.exception = function (message) {
+					if (typeof message == 'object') {
+						alert((JSON && JSON.stringify ? JSON.stringify(message) : message) );
+					} else {
+						alert(message);
+					}
+				}
+				console.info = function (message) {
+					if (typeof message == 'object') {
+						alert((JSON && JSON.stringify ? JSON.stringify(message) : message) );
+					} else {
+						alert(message);
+					}
+				}
+			})();
 		</script>
 	</head>
 	<body>
@@ -57,9 +96,10 @@
 			<button onclick="konvaToPremiere();">konvaToPremiere</button>
 		</div> -->
 		<label><input type="checkbox" id="liveupdate">Live update</label>
+		<label><input type="checkbox" id="snapToEdges" checked>Snap to edges</label>
 		<button onclick="resetSpotlight();">↺ Reset</button>
 		<div id="userfeedback"></div>
-		<div id="stage">Something went wrong. Try to reload the Panel or press F5 for soft reload.</div><br>
+		<div id="stage">Something went wrong. Try to reload the Panel.</div><br>
 	</body>
 </html>
 
@@ -90,7 +130,7 @@ var tr = new Konva.Transformer({
 	anchorFill: '#f4f4f4',
 	anchorSize: 12,
 	anchorCornerRadius: 6,
-	enabledAnchors: ['top-left', 'top-right', 'bottom-left', 'bottom-right', 'right'],
+	enabledAnchors: ['top-left', 'top-right', 'bottom-left', 'bottom-right'],
 });
 layer.add(tr);
 tr.attachTo(spotlight);
@@ -111,4 +151,5 @@ if (DEBUG) {
 
 </script>
 
-<script src="js/events.js">//add event listeners</script>
+<script src="js/konva-snapping-edges.js"></script>
+<script src="js/events.js"></script>

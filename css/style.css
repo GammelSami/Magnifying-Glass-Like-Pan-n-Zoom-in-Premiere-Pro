@@ -8,28 +8,25 @@
   user-select: none;
   cursor: default;
 }
-/* :root::-webkit-scrollbar {
+:root::-webkit-scrollbar {
   display: none;
-} */
+}
 
 #stage {
   position: absolute;
   overflow: visible;
-  background-color: #454545;/* #262626 */
+  background-color: #1d1d1d;
+  border: 2px solid #313131;
+  /* box-sizing: border-box; */
 }
 
-.konvajs-content, canvas {
-  /* width: calc(100vw - 16px) !important;
-  height: auto !important;
-  max-height: calc(100vh - 16px - 1.2em);
-  object-fit: contain; */
-
-  /* image-rendering: optimizeSpeed;
+canvas {
+  image-rendering: optimizeSpeed;
   image-rendering: -moz-crisp-edges;
   image-rendering: -webkit-optimize-contrast;
   image-rendering: optimize-contrast;
   image-rendering: pixelated;
-  -ms-interpolation-mode: nearest-neighbor; */
+  -ms-interpolation-mode: nearest-neighbor;
 }
 
 #userfeedback {

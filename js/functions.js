@@ -117,8 +117,7 @@ var clipScaleSyncTrueHandles = [
   'top-left',
   'top-right',
   'bottom-left',
-  'bottom-right',
-  'right'
+  'bottom-right'
 ];
 var sequenceWidth, sequenceHeight, aspectRatio;
 var bodyMargin = 8 + 8;
@@ -135,29 +134,20 @@ function premiereToKonva() {
       cs.evalScript('$.get.sequenceHeight()', function (cb) {
         sequenceHeight = Number(cb);
 
-        // https://stackoverflow.com/a/3971875
+        // https://stackoverflow.com/a/32800424
 
-        var maxWidth = window.innerWidth - bodyMargin; // Max width for the image
-        var maxHeight = window.innerHeight - bodyMargin - settingsHeight; // Max height for the image
-        var ratio;  // Used for aspect ratio
-        var width = sequenceWidth;    // Current image width
-        var height = sequenceHeight;  // Current image height
+        var width = sequenceWidth;
+        var height = sequenceHeight;
+        var maxWidth = window.innerWidth - bodyMargin;
+        var maxHeight = window.innerHeight - bodyMargin - settingsHeight;
+        var ratio = maxWidth / width;
 
-        // Check if the current width is larger than the max
-        if(true || width > maxWidth) {
-            ratio = maxWidth / width;   // get ratio for scaling image
-            stage.width(maxWidth); // Set new width
-            stage.height(height * ratio);  // Scale height based on ratio
-            height = height * ratio;    // Reset height to match scaled image
-            width = width * ratio;    // Reset width to match scaled image
+        if (height * ratio > maxHeight) {
+          ratio = maxHeight / height;
         }
 
-        // Check if current height is larger than max
-        if(height > maxHeight) {
-            ratio = maxHeight / height; // get ratio for scaling image
-            stage.height(maxHeight);   // Set new height
-            stage.width(width * ratio);    // Scale width based on ratio
-        }
+        stage.width(width * ratio);
+        stage.height(height * ratio);
 
       });
       cs.evalScript('$.get.clipPositionX()', function (cb) {
