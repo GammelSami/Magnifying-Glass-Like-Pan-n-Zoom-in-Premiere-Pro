@@ -3,6 +3,8 @@ var GUIDELINE_OFFSET = 10;
 var snapToEdges = true;
 document.getElementById('snapToEdges').addEventListener('change', (e) => {
   snapToEdges = e.target.checked;
+  if (e.target.checked) tr.rotationSnaps([0, 90, 180, 270]);
+  else tr.rotationSnaps(null);
 });
 
 layer.on('dragmove', function(e) {
