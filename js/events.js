@@ -52,7 +52,8 @@ spotlight.on('transform', function() {
 {
   var rotater = tr.findOne('.rotater');
   rotater.on('mouseenter', (e) => {
-    rotater.getStage().content.style.cursor = 'grab';
+    //not working
+    stage.container().style.cursor = 'grab';
   });
 }
 

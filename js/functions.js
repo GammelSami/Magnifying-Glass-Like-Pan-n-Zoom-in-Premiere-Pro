@@ -218,7 +218,9 @@ function konvaToPremiere() {
   +')');
   //clip rotation
   cs.evalScript('$.set.clipRotation('+
-    -spotlight.rotation() //negative rotation
+    //negative rotation
+    -spotlight.rotation() + ',' +
+    true
   +')');
   //clip anchorpoint xy
   cs.evalScript('$.set.clipAnchorPoint('+

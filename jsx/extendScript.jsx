@@ -8,6 +8,7 @@ $.get = {
 	},
 	sequenceHeight: function() {
 		return getSeq().getSettings().videoFrameHeight;
+		//also possible: getSeq().getSettings().videoFrameHeight;
 	},
 	clipPositionX: function() {
 		//only the multiplyer is returned, so...
@@ -58,8 +59,10 @@ $.set = {
 	clipScaleSync: function(val) {
 		getVideoComponentByMatchName("AE.ADBE Motion").properties[3].setValue(val, false);
 	},
-	clipRotation: function(val) {
-		getVideoComponentByMatchName("AE.ADBE Motion").properties[4].setValue(val, false);
+	clipRotation: function(val, useKeyframes) {
+		var componentProp = getVideoComponentByMatchName("AE.ADBE Motion").properties[4];
+		if ( useKeyframes ) setKey(componentProp, val, false);
+		else setVal(componentProp, val, false);
 	},
 	clipAnchorPoint: function(valX, valY) {
 		var x = valX / $.get.sequenceWidth();
@@ -72,7 +75,7 @@ $.set = {
 }
 
 /***** helper *****/
-//app.enableQE();
+app.enableQE();
 
 function getSeq() {
 	var val = app.project.activeSequence;
@@ -107,6 +110,26 @@ function getVideoComponentByMatchName(name) { // get effect from selected video 
 		if (components[i].matchName === name) return components[i];
 	}
 	return false; //'video component "' + name + '" not found on this clip!'
+}
+
+function getClipPlayheadTime() {
+	var timecode = qe.project.getActiveSequence().CTI.secs;
+	var video = getSelectedVideo();
+	var clipIn = video.inPoint.seconds;
+	var	clipStart = video.start.seconds;
+	return clipIn + clipStart + timecode;
+}
+
+function setKey(componentProp, val, updateUI) {
+	if ( !componentProp.isTimeVarying() ) componentProp.setTimeVarying(true);
+	var time = getClipPlayheadTime();
+	componentProp.addKey(time);
+	componentProp.setValueAtKey(time, val, updateUI);
+}
+
+function setVal(componentProp, val, updateUI) {
+	if ( componentProp.isTimeVarying() ) componentProp.setTimeVarying(false);
+	componentProp.setValue(val, updateUI);
 }
 
 function debug() {
