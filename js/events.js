@@ -3,7 +3,7 @@ var dragmoving = false;
 var transformed = false;
 var dragmoved = false;
 var lastPosition = {x: null, y: null};
-var liveupdate = document.getElementById('liveupdate');
+var liveView = document.getElementById('liveView');
 
 /********** add event listeners **********/
 
@@ -86,7 +86,7 @@ window.addEventListener('keyup', (e) => {
 });
 
 function pushUpdate() {
-  if (liveupdate.checked) setTimeout(function () {
+  if (liveView.checked) setTimeout(function () {
     if (transformed || dragmoved) {
       transformed = false;
       dragmoved = false;
