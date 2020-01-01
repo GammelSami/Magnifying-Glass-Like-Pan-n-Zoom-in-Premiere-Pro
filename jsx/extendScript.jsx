@@ -45,29 +45,39 @@ $.get = {
 }
 
 $.set = {
-	clipPosition: function(valX, valY) {
+	clipPosition: function(valX, valY, useKeyframes) {
 		var x = valX / $.get.sequenceWidth();
 		var y = valY / $.get.sequenceHeight();
-		getVideoComponentByMatchName("AE.ADBE Motion").properties[0].setValue([x,y], false);
+		var componentProp = getVideoComponentByMatchName("AE.ADBE Motion").properties[0];
+		if ( useKeyframes ) setKey(componentProp, [x,y], false);
+		else setVal(componentProp, [x,y], false);
 	},
-	clipScale: function(val) {
-		getVideoComponentByMatchName("AE.ADBE Motion").properties[1].setValue(val, false);
+	clipScale: function(val, useKeyframes) {
+		var componentProp = getVideoComponentByMatchName("AE.ADBE Motion").properties[1];
+		if ( useKeyframes ) setKey(componentProp, val, false);
+		else setVal(componentProp, val, false);
 	},
-	clipScaleW: function(val) {
-		getVideoComponentByMatchName("AE.ADBE Motion").properties[2].setValue(val, false);
+	clipScaleW: function(val, useKeyframes) {
+		var componentProp = getVideoComponentByMatchName("AE.ADBE Motion").properties[2];
+		if ( useKeyframes ) setKey(componentProp, val, false);
+		else setVal(componentProp, val, false);
 	},
-	clipScaleSync: function(val) {
-		getVideoComponentByMatchName("AE.ADBE Motion").properties[3].setValue(val, false);
+	clipScaleSync: function(val, useKeyframes) {
+		var componentProp = getVideoComponentByMatchName("AE.ADBE Motion").properties[3];
+		if ( useKeyframes ) setKey(componentProp, val, false);
+		else setVal(componentProp, val, false);
 	},
 	clipRotation: function(val, useKeyframes) {
 		var componentProp = getVideoComponentByMatchName("AE.ADBE Motion").properties[4];
 		if ( useKeyframes ) setKey(componentProp, val, false);
 		else setVal(componentProp, val, false);
 	},
-	clipAnchorPoint: function(valX, valY) {
+	clipAnchorPoint: function(valX, valY, useKeyframes) {
 		var x = valX / $.get.sequenceWidth();
 		var y = valY / $.get.sequenceHeight();
-		getVideoComponentByMatchName("AE.ADBE Motion").properties[5].setValue([x,y], true);
+		var componentProp = getVideoComponentByMatchName("AE.ADBE Motion").properties[5];
+		if ( useKeyframes ) setKey(componentProp, [x,y], true);
+		else setVal(componentProp, [x,y], true);
 	},
 	debug: function (str) {
 		debug(str);

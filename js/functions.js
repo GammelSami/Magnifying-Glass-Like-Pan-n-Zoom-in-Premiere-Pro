@@ -200,33 +200,38 @@ function premiereToKonva() {
 }
 
 function konvaToPremiere() {
+  var useKeyframes = document.getElementById('useKeyframes').checked;
   //clip position xy
   cs.evalScript('$.set.clipPosition('+
     //not so magic "formular" by sami
     spotlight.offsetX() / stage.width() * sequenceWidth + ',' +
-    spotlight.offsetY() / stage.height() * sequenceHeight
+    spotlight.offsetY() / stage.height() * sequenceHeight + ',' +
+    useKeyframes
   +')');
   //clip scale
   cs.evalScript('$.set.clipScale('+
     //magic formular by Hannes
-    ((1 / spotlight.scaleY() ) * 100)
+    ((1 / spotlight.scaleY() ) * 100) + ',' +
+    useKeyframes
   +')');
   //clip scale w
   cs.evalScript('$.set.clipScaleW('+
     //magic formular by Hannes
-    ((1 / spotlight.scaleX() ) * 100)
+    ((1 / spotlight.scaleX() ) * 100) + ',' +
+    useKeyframes
   +')');
   //clip rotation
   cs.evalScript('$.set.clipRotation('+
     //negative rotation
     -spotlight.rotation() + ',' +
-    true
+    useKeyframes
   +')');
   //clip anchorpoint xy
   cs.evalScript('$.set.clipAnchorPoint('+
     //not so magic "formular" by sami
     spotlight.x() / stage.width() * sequenceWidth + ',' +
-    spotlight.y() / stage.height() * sequenceHeight
+    spotlight.y() / stage.height() * sequenceHeight + ',' +
+    useKeyframes
   +')');
 }
 
