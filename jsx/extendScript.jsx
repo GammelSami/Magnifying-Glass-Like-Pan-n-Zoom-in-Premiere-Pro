@@ -114,10 +114,10 @@ function getVideoComponentByMatchName(name) { // get effect from selected video 
 
 function getClipPlayheadTime() {
 	var timecode = qe.project.getActiveSequence().CTI.secs;
-	var video = getSelectedVideo();
+	var video = getSelectedVideo(); //helper
 	var clipIn = video.inPoint.seconds;
 	var	clipStart = video.start.seconds;
-	return clipIn + clipStart + timecode;
+	return timecode - clipStart + clipIn;
 }
 
 function setKey(componentProp, val, updateUI) {
