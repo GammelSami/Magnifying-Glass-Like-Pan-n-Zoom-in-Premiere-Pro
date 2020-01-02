@@ -32,6 +32,7 @@ spotlight.on('transformend', function() {
 
 spotlight.on('dragmove', function() {
   dragmoved = true;
+  // calculateDynamicOffset();
 });
 spotlight.on('transform', function() {
   transformed = true;
@@ -79,7 +80,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 window.addEventListener('keydown', (e) => {
   //refresh on F5
-  // if (e.code == 'F5') location.reload(); //this only reloads the html, not the jsx
+  if (e.code == 'F5') location.reload(); //this only reloads the html, not the jsx
   //only change scaling on Alt
   if (e.key == 'Alt') {
     spotlight.x(lastPosition.x);
@@ -108,7 +109,7 @@ function pushUpdate() {
 
 function pullUpdate() {
   setTimeout(function () {
-    if (!transforming && !dragmoving && !document.hasFocus()) premiereToKonva(); //dont pull while user is editing konva
+    if (!transforming && !dragmoving) premiereToKonva(); //dont pull while user is editing konva
     pullUpdate();
   }, 800);
 }
@@ -123,4 +124,18 @@ function resetSpotlight() {
   spotlight.rotation(0);
   layer.batchDraw();
   konvaToPremiere();
+}
+
+
+function calculateDynamicOffset() {
+  var rect = spotlight.getClientRect();
+  var spotlightCenterPositionX = rect.x + (rect.width * 0.5);
+  var spotlightCenterPositionY = rect.y + (rect.height * 0.5);
+  var spotlightRadiusX = rect.width * 0.5;
+  var spotlightRadiusY = rect.height * 0.5;
+  var stageCenterX = stage.width() * 0.5;
+  var stageCenterY = stage.height() * 0.5;
+  spotlight.offsetX(spotlightCenterPositionX + spotlightRadiusX);
+  spotlight.offsetY(spotlightCenterPositionY + spotlightRadiusY);
+  //all wrong
 }
