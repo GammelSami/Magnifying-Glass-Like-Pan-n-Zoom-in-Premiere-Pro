@@ -111,9 +111,11 @@ app.enableQE();
 function getSeq() {
 	var val = app.project.activeSequence;
 	if (val) return val;
+	else return false;
 }
 
 function getSelectedVideos() {
+	if (!getSeq()) return false;
 	var sel = getSeq().getSelection();
 	if (!sel) return false; //no clips selected
 	var vids = [];
