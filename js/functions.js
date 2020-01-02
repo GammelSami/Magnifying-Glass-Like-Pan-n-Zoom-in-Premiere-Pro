@@ -200,39 +200,47 @@ function premiereToKonva() {
 }
 
 function konvaToPremiere() {
-  var useKeyframes = document.getElementById('useKeyframes').checked;
-  //clip position xy
-  cs.evalScript('$.set.clipPosition('+
-    //not so magic "formular" by sami
-    spotlight.offsetX() / stage.width() * sequenceWidth + ',' +
-    spotlight.offsetY() / stage.height() * sequenceHeight + ',' +
-    useKeyframes
-  +')');
-  //clip scale
-  cs.evalScript('$.set.clipScale('+
-    //magic formular by Hannes
-    ((1 / spotlight.scaleY() ) * 100) + ',' +
-    useKeyframes
-  +')');
-  //clip scale w
-  cs.evalScript('$.set.clipScaleW('+
-    //magic formular by Hannes
-    ((1 / spotlight.scaleX() ) * 100) + ',' +
-    useKeyframes
-  +')');
-  //clip rotation
-  cs.evalScript('$.set.clipRotation('+
-    //negative rotation
-    -spotlight.rotation() + ',' +
-    useKeyframes
-  +')');
-  //clip anchorpoint xy
-  cs.evalScript('$.set.clipAnchorPoint('+
-    //not so magic "formular" by sami
-    spotlight.x() / stage.width() * sequenceWidth + ',' +
-    spotlight.y() / stage.height() * sequenceHeight + ',' +
-    useKeyframes
-  +')');
+  cs.evalScript('$.get.hasSelectedVideo()', function (cb) {
+    if (cb==='true') {
+      var useKeyframes = document.getElementById('useKeyframes').checked;
+      //clip position xy
+      cs.evalScript('$.set.clipPosition('+
+      //not so magic "formular" by sami
+      spotlight.offsetX() / stage.width() * sequenceWidth + ',' +
+      spotlight.offsetY() / stage.height() * sequenceHeight + ',' +
+      useKeyframes
+      +')');
+      //clip scale
+      cs.evalScript('$.set.clipScale('+
+      //magic formular by Hannes
+      ((1 / spotlight.scaleY() ) * 100) + ',' +
+      useKeyframes
+      +')');
+      //clip scale w
+      cs.evalScript('$.set.clipScaleW('+
+      //magic formular by Hannes
+      ((1 / spotlight.scaleX() ) * 100) + ',' +
+      useKeyframes
+      +')');
+      //clip rotation
+      cs.evalScript('$.set.clipRotation('+
+      //negative rotation
+      -spotlight.rotation() + ',' +
+      useKeyframes
+      +')');
+      //clip anchorpoint xy
+      cs.evalScript('$.set.clipAnchorPoint('+
+      //not so magic "formular" by sami
+      spotlight.x() / stage.width() * sequenceWidth + ',' +
+      spotlight.y() / stage.height() * sequenceHeight + ',' +
+      useKeyframes
+      +')');
+    } else {
+      document.getElementById('userfeedback').innerText = '(no video clip selected)';
+      stage.width(0);
+      stage.height(0);
+    }
+  });
 }
 
 function calcScalePremiereToKonva(cb) {
