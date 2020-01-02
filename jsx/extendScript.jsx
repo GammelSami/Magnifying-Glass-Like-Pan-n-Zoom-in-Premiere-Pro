@@ -10,31 +10,44 @@ $.get = {
 		return getSeq().getSettings().videoFrameHeight;
 		//also possible: getSeq().getSettings().videoFrameHeight;
 	},
-	clipPositionX: function() {
-		//only the multiplyer is returned, so...
-		return this.sequenceWidth() * getVideoComponentByMatchName("AE.ADBE Motion").properties[0].getValue()[0];
-		//debug(qe.project.getActiveSequence().getVideoTrackAt(0).getItemAt(0).getComponentAt(1).getParamValue('Position')); //precalculated qe-solution
+	//sometimes only multipliers are returned. precalculated solution: qe.project.getActiveSequence().getVideoTrackAt(0).getItemAt(0).getComponentAt(1).getParamValue('Position'));
+	clipPositionX: function(useKeyframes) {
+		var componentProp = getVideoComponentByMatchName("AE.ADBE Motion").properties[0];
+		if ( useKeyframes ) return this.sequenceWidth() * getKeyValue(componentProp)[0];
+		else return this.sequenceWidth() * componentProp.getValue()[0];
 	},
-	clipPositionY: function() {
-		return this.sequenceHeight() * getVideoComponentByMatchName("AE.ADBE Motion").properties[0].getValue()[1];
+	clipPositionY: function(useKeyframes) {
+		var componentProp = getVideoComponentByMatchName("AE.ADBE Motion").properties[0];
+		if ( useKeyframes ) return this.sequenceHeight() * getKeyValue(componentProp)[1];
+		else return this.sequenceHeight() * componentProp.getValue()[1];
 	},
-	clipScale: function() {
-		return getVideoComponentByMatchName("AE.ADBE Motion").properties[1].getValue();
+	clipScale: function(useKeyframes) {
+		var componentProp = getVideoComponentByMatchName("AE.ADBE Motion").properties[1];
+		if ( useKeyframes ) return getKeyValue(componentProp);
+		else return componentProp.getValue();
 	},
-	clipScaleW: function() {
-		return getVideoComponentByMatchName("AE.ADBE Motion").properties[2].getValue();
+	clipScaleW: function(useKeyframes) {
+		var componentProp = getVideoComponentByMatchName("AE.ADBE Motion").properties[2];
+		if ( useKeyframes ) return getKeyValue(componentProp);
+		else return componentProp.getValue();
 	},
 	clipScaleSync: function() {
 		return getVideoComponentByMatchName("AE.ADBE Motion").properties[3].getValue();
 	},
-	clipRotation: function() {
-		return getVideoComponentByMatchName("AE.ADBE Motion").properties[4].getValue();
+	clipRotation: function(useKeyframes) {
+		var componentProp = getVideoComponentByMatchName("AE.ADBE Motion").properties[4];
+		if ( useKeyframes ) return getKeyValue(componentProp);
+		else return componentProp.getValue();
 	},
-	clipAnchorPointX: function() {
-		return this.sequenceWidth() * getVideoComponentByMatchName("AE.ADBE Motion").properties[5].getValue()[0];
+	clipAnchorPointX: function(useKeyframes) {
+		var componentProp = getVideoComponentByMatchName("AE.ADBE Motion").properties[5];
+		if ( useKeyframes ) return this.sequenceWidth() * getKeyValue(componentProp)[0];
+		else return this.sequenceWidth() * componentProp.getValue()[0];
 	},
-	clipAnchorPointY: function() {
-		return this.sequenceHeight() * getVideoComponentByMatchName("AE.ADBE Motion").properties[5].getValue()[1];
+	clipAnchorPointY: function(useKeyframes) {
+		var componentProp = getVideoComponentByMatchName("AE.ADBE Motion").properties[5];
+		if ( useKeyframes ) return this.sequenceHeight() * getKeyValue(componentProp)[1];
+		else return this.sequenceHeight() * componentProp.getValue()[1];
 	},
 	clipWidth: function() {
 		return this.sequenceWidth(); //fallback, not possible yet!
@@ -136,6 +149,10 @@ function setKey(componentProp, val, updateUI) {
 	componentProp.addKey(secs);
 	componentProp.setValueAtKey(secs, val, updateUI);
 }
+
+function getKeyValue(componentProp) {
+	var secs = getClipPlayheadSeconds();
+	return componentProp.getValueAtTime(secs);
 }
 
 function setVal(componentProp, val, updateUI) {

@@ -79,7 +79,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 window.addEventListener('keydown', (e) => {
   //refresh on F5
-  if (e.code == 'F5') location.reload(); //this only reloads the html, not the jsx
+  // if (e.code == 'F5') location.reload(); //this only reloads the html, not the jsx
   //only change scaling on Alt
   if (e.key == 'Alt') {
     spotlight.x(lastPosition.x);

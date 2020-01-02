@@ -127,6 +127,7 @@ function premiereToKonva() {
   cs.evalScript('$.get.hasSelectedVideo()', function (cb) {
     if (cb==='true') {
       document.getElementById('userfeedback').innerText = '';
+      var useKeyframes = document.getElementById('useKeyframes').checked;
 
       cs.evalScript('$.get.sequenceWidth()', function (cb) {
         sequenceWidth = Number(cb);
@@ -150,16 +151,16 @@ function premiereToKonva() {
         stage.height(height * ratio);
 
       });
-      cs.evalScript('$.get.clipPositionX()', function (cb) {
+      cs.evalScript('$.get.clipPositionX('+useKeyframes+')', function (cb) {
         spotlight.offsetX( Number(cb) / sequenceWidth * stage.width() );
       });
-      cs.evalScript('$.get.clipPositionY()', function (cb) {
+      cs.evalScript('$.get.clipPositionY('+useKeyframes+')', function (cb) {
         spotlight.offsetY( Number(cb) / sequenceHeight * stage.height() );
       });
-      cs.evalScript('$.get.clipAnchorPointX()', function (cb) {
+      cs.evalScript('$.get.clipAnchorPointX('+useKeyframes+')', function (cb) {
         spotlight.x( Number(cb) / sequenceWidth * stage.width() );
       });
-      cs.evalScript('$.get.clipAnchorPointY()', function (cb) {
+      cs.evalScript('$.get.clipAnchorPointY('+useKeyframes+')', function (cb) {
         spotlight.y( Number(cb) / sequenceHeight * stage.height() );
       });
       cs.evalScript('$.get.clipHeight()', function (cb) {
@@ -168,22 +169,22 @@ function premiereToKonva() {
       cs.evalScript('$.get.clipWidth()', function (cb) {
         spotlight.width( Number(cb) / sequenceWidth * stage.width() );
       });
-      cs.evalScript('$.get.clipRotation()', function (cb) {
+      cs.evalScript('$.get.clipRotation('+useKeyframes+')', function (cb) {
         spotlight.rotation( -Number(cb) );
       });
-      cs.evalScript('$.get.clipScale()', function (cb) {
+      cs.evalScript('$.get.clipScale('+useKeyframes+')', function (cb) {
         spotlight.scaleY(calcScalePremiereToKonva(cb));
       });
       cs.evalScript('$.get.clipScaleSync()', function (cb) {
         if(cb==='true') {
           tr.enabledAnchors(clipScaleSyncTrueHandles);
-          cs.evalScript('$.get.clipScale()', function (cb) {
+          cs.evalScript('$.get.clipScale('+useKeyframes+')', function (cb) {
             spotlight.scaleX(calcScalePremiereToKonva(cb));
             layer.batchDraw();
           });
         } else {
           tr.enabledAnchors(clipScaleSyncFalseHandles);
-          cs.evalScript('$.get.clipScaleW()', function (cb) {
+          cs.evalScript('$.get.clipScaleW('+useKeyframes+')', function (cb) {
             spotlight.scaleX(calcScalePremiereToKonva(cb));
             layer.batchDraw();
           });
