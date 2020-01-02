@@ -3,6 +3,14 @@ $.get = {
 		if (getSelectedVideo()) return true;
 		else return false;
 	},
+	isTimeVarying: function() {
+		var props = [0, 1, 2, 4, 5];
+		var component = getVideoComponentByMatchName("AE.ADBE Motion");
+		for (var i = 0; i < props.length; i++) {
+			if ( component.properties[props[i]].isTimeVarying() ) return true;
+		}
+		return false;
+	},
 	sequenceWidth: function() {
 		return getSeq().getSettings().videoFrameWidth;
 	},

@@ -126,8 +126,14 @@ var settingsHeight = 20;
 function premiereToKonva() {
   cs.evalScript('$.get.hasSelectedVideo()', function (cb) {
     if (cb==='true') {
+      document.getElementById('toolbox').style.display = 'initial';
       document.getElementById('userfeedback').innerText = '';
-      var useKeyframes = document.getElementById('useKeyframes').checked;
+      var useKeyframesCheckbox = document.getElementById('useKeyframes');
+      var useKeyframes = useKeyframesCheckbox.checked;
+
+      cs.evalScript('$.get.isTimeVarying()', function (cb) {
+        useKeyframesCheckbox.checked = cb==='true';
+      });
 
       cs.evalScript('$.get.sequenceWidth()', function (cb) {
         sequenceWidth = Number(cb);
@@ -192,6 +198,7 @@ function premiereToKonva() {
         updateText();
       });
     } else {
+      document.getElementById('toolbox').style.display = 'none';
       document.getElementById('userfeedback').innerText = '(no video clip selected)';
       stage.width(0);
       stage.height(0);
@@ -236,10 +243,6 @@ function konvaToPremiere() {
       spotlight.y() / stage.height() * sequenceHeight + ',' +
       useKeyframes
       +')');
-    } else {
-      document.getElementById('userfeedback').innerText = '(no video clip selected)';
-      stage.width(0);
-      stage.height(0);
     }
   });
 }
