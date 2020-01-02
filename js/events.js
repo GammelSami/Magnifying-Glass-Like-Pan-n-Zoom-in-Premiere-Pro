@@ -69,7 +69,7 @@ window.addEventListener('blur', () => {
 });
 
 window.addEventListener('mouseover', () => {
-  premiereToKonva();
+  if (!transforming && !dragmoving) premiereToKonva();
 });
 
 window.addEventListener('DOMContentLoaded', () => {
