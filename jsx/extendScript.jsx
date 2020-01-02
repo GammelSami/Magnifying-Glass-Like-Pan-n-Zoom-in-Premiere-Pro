@@ -122,7 +122,7 @@ function getVideoComponentByMatchName(name) { // get effect from selected video 
 	return false; //'video component "' + name + '" not found on this clip!'
 }
 
-function getClipPlayheadTime() {
+function getClipPlayheadSeconds() {
 	var timecode = qe.project.getActiveSequence().CTI.secs;
 	var video = getSelectedVideo(); //helper
 	var clipIn = video.inPoint.seconds;
@@ -132,9 +132,10 @@ function getClipPlayheadTime() {
 
 function setKey(componentProp, val, updateUI) {
 	if ( !componentProp.isTimeVarying() ) componentProp.setTimeVarying(true);
-	var time = getClipPlayheadTime();
-	componentProp.addKey(time);
-	componentProp.setValueAtKey(time, val, updateUI);
+	var secs = getClipPlayheadSeconds();
+	componentProp.addKey(secs);
+	componentProp.setValueAtKey(secs, val, updateUI);
+}
 }
 
 function setVal(componentProp, val, updateUI) {
